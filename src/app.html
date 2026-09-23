@@ -176,14 +176,14 @@
                 photo of (showAll() ? photos : photos.slice(0, 4));
                 track photo.file
                     ) {
-                <figure class="room-card">
+                <a href="#enquiry" class="room-card" (click)="chooseRoomType(photo.type)">
                     <img
                             [src]="'assets/' + photo.file"
                             [alt]="photo.type + ' — ' + photo.features"
                             loading="lazy"
                     >
 
-                    <figcaption>
+                    <div class="room-caption">
                         <div class="room-caption-top">
                             <span>{{ photo.code }}</span>
 
@@ -197,8 +197,8 @@
 
                         <h3 class="room-type-heading"><app-icon [name]="photo.price ? 'bed' : 'home'" />{{ photo.type }}</h3>
                         <p>{{ photo.features }}</p>
-                    </figcaption>
-                </figure>
+                    </div>
+                </a>
             }
         </div>
 
@@ -408,6 +408,8 @@
                                     type="checkbox"
                                     name="roomTypes"
                                     [value]="type"
+                                    [checked]="preferredRoomTypes().includes(type)"
+                                    (change)="toggleRoomType(type, $event)"
                             >
                             {{ i18n.t('roomType.' + type) }}
                         </label>

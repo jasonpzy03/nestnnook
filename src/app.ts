@@ -26,8 +26,20 @@ export class AppComponent {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   })();
+  readonly preferredRoomTypes = signal<string[]>([]);
   closeMenu(): void { this.menuOpen.set(false); }
   chooseLocation(location: string): void { this.preferredLocation.set(location); this.clearMessage(); }
+  chooseRoomType(type: string): void { this.preferredRoomTypes.set([type]); this.clearMessage(); }
+  toggleRoomType(type: string, event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const current = this.preferredRoomTypes();
+    if (checked) {
+      this.preferredRoomTypes.set([...current, type]);
+    } else {
+      this.preferredRoomTypes.set(current.filter(t => t !== type));
+    }
+    this.clearMessage();
+  }
   clearMessage(): void { this.formError.set(''); }
   prepareEnquiry(event: Event, form: HTMLFormElement): void {
     event.preventDefault();

@@ -502,9 +502,10 @@ h2 {
     gap: 20px;
 }
 
-.room-grid figure {
+.room-grid .room-card {
     margin: 0;
     min-width: 0;
+    text-decoration: none;
 }
 
 .room-grid img {
@@ -518,7 +519,7 @@ h2 {
     filter: brightness(1.06);
 }
 
-figcaption {
+.room-caption {
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -1057,7 +1058,7 @@ footer.section {
    Room Reference Cards
    ========================= */
 
-.room-card figcaption {
+.room-card .room-caption {
     display: block;
     letter-spacing: 0;
     font-size: 14px;
@@ -1092,7 +1093,7 @@ footer.section {
     margin: 10px 0;
 }
 
-.room-card figcaption p {
+.room-card .room-caption p {
     font-size: 14px;
     line-height: 1.7;
     color: var(--muted);
