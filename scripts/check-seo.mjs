@@ -3,10 +3,11 @@ import { readFile } from 'node:fs/promises';
 
 const html = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 const body = html.split('<body>')[1].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
-for (const text of ['Johor Bahru room rental', 'CIQ room rental', 'JB room rental', 'Princess Cove', 'Trellis Residences', 'id="enquiry"', 'https://t.me/+AT2v-yZGpBkwMGM9', 'Common Room', 'Balcony Room', 'Window Room', 'Master Room', '1,288', '1,488', '988', '1,788']) {
-  assert.ok(body.includes(text), `Missing prerendered page content: ${text}`);
+for (const text of ['Johor Bahru room rental', 'CIQ room rental', 'JB room rental', 'Princess Cove', 'Trellis Residences', 'id="enquiry"', 'Tri Tower', 'Country Garden Danga Bay', 'Common Room', 'Balcony Room', 'Window Room', 'Master Room', '1,288', '1,488', '988', '1,788']) {
+  assert.ok(body.replace(/\s+/g, ' ').includes(text), `Missing prerendered page content: ${text}`);
 }
 assert.equal((body.match(/<h1\b/g) || []).length, 1, 'Exactly one primary heading is required');
+assert.ok(!/t\.me\/|telegram/i.test(html), 'Telegram must not appear in the published page');
 assert.ok(html.includes('ngh='), 'Angular hydration markers must be present');
 assert.ok(html.includes('name="description"'), 'Description metadata is required');
 assert.ok(!html.includes('noindex'), 'Production page must allow indexing');

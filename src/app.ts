@@ -1,26 +1,27 @@
-import { Component, signal, viewChild, ElementRef, afterNextRender, Injector, inject } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CONTACT } from './site.config';
 import { ROOMS } from './rooms';
+import { LOCATIONS } from './locations';
+import { IconComponent } from './icon';
+import { GOOGLE_REVIEWS } from './reviews';
 
-@Component({ selector: 'app-root', standalone: true, templateUrl: './app.html' })
+@Component({ selector: 'app-root', standalone: true, imports: [IconComponent], templateUrl: './app.html' })
 export class AppComponent {
   readonly contact = CONTACT;
   readonly year = new Date().getFullYear();
   readonly menuOpen = signal(false);
   readonly photos = ROOMS;
+  readonly locations = LOCATIONS;
+  readonly reviews = GOOGLE_REVIEWS;
   readonly showAll = signal(false);
   readonly preferredLocation = signal('');
   readonly ethnicityOptions = ['Chinese', 'Indian', 'Malay', 'Others'];
   readonly selectedEthnicity = signal('');
-  readonly roomTypes = ['Common Room', 'Balcony Room', 'Window Room', 'Master Room', 'Open to suggestions'];
-  readonly message = signal('');
+  readonly roomTypes = ['Single Room', 'Common Room', 'Balcony Room', 'Window Room', 'Master Room', 'Others'];
   readonly formError = signal('');
-  private readonly review = viewChild<ElementRef<HTMLElement>>('review');
-  private readonly injector = inject(Injector);
   closeMenu(): void { this.menuOpen.set(false); }
   chooseLocation(location: string): void { this.preferredLocation.set(location); this.clearMessage(); }
-  clearMessage(): void { this.message.set(''); this.formError.set(''); }
-  whatsappUrl(): string { return `https://wa.me/${this.contact.whatsappNumber}?text=${encodeURIComponent(this.message())}`; }
+  clearMessage(): void { this.formError.set(''); }
   prepareEnquiry(event: Event, form: HTMLFormElement): void {
     event.preventDefault();
     this.clearMessage();
@@ -37,7 +38,7 @@ export class AppComponent {
       ? String(data.get('otherEthnicity') ?? '').trim().replace(/\s+/g, ' ')
       : ethnicityChoice;
     if (!name || !types.length || !Number.isSafeInteger(occupants) || occupants < 1 || !location) {
-      this.formError.set(!name ? 'Please enter your name.' : !types.length ? 'Please choose at least one room type, or choose Open to suggestions.' : 'Please enter a whole number of people and choose a location.');
+      this.formError.set(!name ? 'Please enter your name.' : !types.length ? 'Please choose at least one room type, or choose Others.' : 'Please enter a whole number of people and choose a location.');
       return;
     }
     if (!['Yes', 'No', 'Not sure yet'].includes(carPark) || !['Yes', 'No'].includes(motorcycle)) {
@@ -48,7 +49,7 @@ export class AppComponent {
       this.formError.set(ethnicityChoice === 'Others' ? 'Please specify your race / ethnicity.' : 'Please choose your race / ethnicity.');
       return;
     }
-    this.message.set(`Hi Nest & Nook! I would like to enquire about a room rental.\n\nName: ${name}\nPreferred room types: ${types.join(', ')}\nNumber of people: ${occupants}\nPreferred location: ${location}\nCar parking needed: ${carPark}\nHave a motorcycle: ${motorcycle}${ethnicity ? `\nRace / ethnicity: ${ethnicity}` : ''}\n\nCould you share suitable rooms, current prices and availability? Thank you!`);
-    afterNextRender(() => this.review()?.nativeElement.focus(), { injector: this.injector });
+    const message = `Hi Nest & Nook! I would like to enquire about a room rental.\n\nName: ${name}\nPreferred room types: ${types.join(', ')}\nNumber of people: ${occupants}\nPreferred location: ${location}\nCar parking needed: ${carPark}\nHave a motorcycle: ${motorcycle}\nRace / ethnicity: ${ethnicity}\n\nCould you share suitable rooms, current prices and availability? Thank you!`;
+    window.location.assign(`https://wa.me/${this.contact.whatsappNumber}?text=${encodeURIComponent(message)}`);
   }
 }
