@@ -99,6 +99,10 @@ header {
     letter-spacing: -1px;
 }
 
+header .brand {
+    margin-right: auto;
+}
+
 .brand > span {
     color: #b58a36;
     font-style: italic;
@@ -498,9 +502,10 @@ h2 {
     gap: 20px;
 }
 
-.room-grid figure {
+.room-grid .room-card {
     margin: 0;
     min-width: 0;
+    text-decoration: none;
 }
 
 .room-grid img {
@@ -514,7 +519,7 @@ h2 {
     filter: brightness(1.06);
 }
 
-figcaption {
+.room-caption {
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -1053,7 +1058,7 @@ footer.section {
    Room Reference Cards
    ========================= */
 
-.room-card figcaption {
+.room-card .room-caption {
     display: block;
     letter-spacing: 0;
     font-size: 14px;
@@ -1088,7 +1093,7 @@ footer.section {
     margin: 10px 0;
 }
 
-.room-card figcaption p {
+.room-card .room-caption p {
     font-size: 14px;
     line-height: 1.7;
     color: var(--muted);
@@ -1161,6 +1166,19 @@ fieldset legend > span {
 .enquiry-form select:focus-visible {
     outline: 2px solid #b88924;
     outline-offset: 3px;
+}
+
+.enquiry-form input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    display: block;
+    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%2365717b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M8 2v4"/><path d="M16 2v4"/><path d="M3 10h18"/><path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg>') center/contain no-repeat;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.enquiry-form input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23b88924" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M8 2v4"/><path d="M16 2v4"/><path d="M3 10h18"/><path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg>');
 }
 
 .enquiry-form fieldset {

@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CONTACT } from './site.config';
 import { ROOMS } from './rooms';
 import { LOCATIONS } from './locations';
 import { IconComponent } from './icon';
 import { GOOGLE_REVIEWS } from './reviews';
+import { I18nService } from './i18n.service';
+import { LangSwitcherComponent } from './lang-switcher';
 
-@Component({ selector: 'app-root', standalone: true, imports: [IconComponent], templateUrl: './app.html' })
+@Component({ selector: 'app-root', standalone: true, imports: [IconComponent, LangSwitcherComponent], templateUrl: './app.html' })
 export class AppComponent {
+  readonly i18n = inject(I18nService);
   readonly contact = CONTACT;
   readonly year = new Date().getFullYear();
   readonly menuOpen = signal(false);
@@ -19,8 +22,24 @@ export class AppComponent {
   readonly selectedEthnicity = signal('');
   readonly roomTypes = ['Single Room', 'Common Room', 'Balcony Room', 'Window Room', 'Master Room', 'Others'];
   readonly formError = signal('');
+  readonly todayDate = (() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  })();
+  readonly preferredRoomTypes = signal<string[]>([]);
   closeMenu(): void { this.menuOpen.set(false); }
   chooseLocation(location: string): void { this.preferredLocation.set(location); this.clearMessage(); }
+  chooseRoomType(type: string): void { this.preferredRoomTypes.set([type]); this.clearMessage(); }
+  toggleRoomType(type: string, event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const current = this.preferredRoomTypes();
+    if (checked) {
+      this.preferredRoomTypes.set([...current, type]);
+    } else {
+      this.preferredRoomTypes.set(current.filter(t => t !== type));
+    }
+    this.clearMessage();
+  }
   clearMessage(): void { this.formError.set(''); }
   prepareEnquiry(event: Event, form: HTMLFormElement): void {
     event.preventDefault();
@@ -31,6 +50,7 @@ export class AppComponent {
     const types = data.getAll('roomTypes').map(String).filter(type => this.roomTypes.includes(type));
     const occupants = Number(data.get('occupants'));
     const location = String(data.get('location') ?? '');
+    const moveInDate = String(data.get('moveInDate') ?? '').trim();
     const carPark = String(data.get('carPark') ?? '');
     const motorcycle = String(data.get('motorcycle') ?? '');
     const ethnicityChoice = String(data.get('ethnicity') ?? '');
@@ -38,18 +58,22 @@ export class AppComponent {
       ? String(data.get('otherEthnicity') ?? '').trim().replace(/\s+/g, ' ')
       : ethnicityChoice;
     if (!name || !types.length || !Number.isSafeInteger(occupants) || occupants < 1 || !location) {
-      this.formError.set(!name ? 'Please enter your name.' : !types.length ? 'Please choose at least one room type, or choose Others.' : 'Please enter a whole number of people and choose a location.');
+      this.formError.set(this.i18n.t(!name ? 'error.name' : !types.length ? 'error.roomType' : 'error.occupants'));
+      return;
+    }
+    if (!moveInDate) {
+      this.formError.set(this.i18n.t('error.moveIn'));
       return;
     }
     if (!['Yes', 'No', 'Not sure yet'].includes(carPark) || !['Yes', 'No'].includes(motorcycle)) {
-      this.formError.set('Please answer the car parking and motorcycle questions.');
+      this.formError.set(this.i18n.t('error.parking'));
       return;
     }
     if (!this.ethnicityOptions.includes(ethnicityChoice) || !ethnicity) {
-      this.formError.set(ethnicityChoice === 'Others' ? 'Please specify your race / ethnicity.' : 'Please choose your race / ethnicity.');
+      this.formError.set(this.i18n.t(ethnicityChoice === 'Others' ? 'error.ethnicity.specify' : 'error.ethnicity.choose'));
       return;
     }
-    const message = `Hi Nest & Nook! I would like to enquire about a room rental.\n\nName: ${name}\nPreferred room types: ${types.join(', ')}\nNumber of people: ${occupants}\nPreferred location: ${location}\nCar parking needed: ${carPark}\nHave a motorcycle: ${motorcycle}\nRace / ethnicity: ${ethnicity}\n\nCould you share suitable rooms, current prices and availability? Thank you!`;
+    const message = `Hi Nest & Nook! I would like to enquire about a room rental.\n\nName: ${name}\nPreferred room types: ${types.join(', ')}\nNumber of people: ${occupants}\nPreferred location: ${location}\nMove-in date: ${moveInDate}\nCar parking needed: ${carPark}\nHave a motorcycle: ${motorcycle}\nRace / ethnicity: ${ethnicity}\n\nCould you share suitable rooms, current prices and availability? Thank you!`;
     window.location.assign(`https://wa.me/${this.contact.whatsappNumber}?text=${encodeURIComponent(message)}`);
   }
 }
