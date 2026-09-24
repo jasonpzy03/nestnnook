@@ -18,6 +18,7 @@ export class AppComponent {
   readonly reviews = GOOGLE_REVIEWS;
   readonly showAll = signal(false);
   readonly preferredLocation = signal('');
+  readonly showSelectionSummary = signal(false);
   readonly ethnicityOptions = ['Chinese', 'Indian', 'Malay', 'Others'];
   readonly selectedEthnicity = signal('');
   readonly roomTypes = ['Single Room', 'Common Room', 'Balcony Room', 'Window Room', 'Master Room', 'Others'];
@@ -29,8 +30,17 @@ export class AppComponent {
   }
   readonly preferredRoomTypes = signal<string[]>([]);
   closeMenu(): void { this.menuOpen.set(false); }
-  chooseLocation(location: string): void { this.preferredLocation.set(location); this.clearMessage(); }
-  chooseRoomType(type: string): void { this.preferredRoomTypes.set([type]); this.clearMessage(); }
+  chooseLocation(location: string): void {
+    this.preferredLocation.set(location);
+    this.showSelectionSummary.set(true);
+    this.clearMessage();
+  }
+  chooseRoomType(type: string): void {
+    if (!this.roomTypes.includes(type)) return;
+    this.preferredRoomTypes.set([type]);
+    this.showSelectionSummary.set(true);
+    this.clearMessage();
+  }
   toggleRoomType(type: string, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     const current = this.preferredRoomTypes();
