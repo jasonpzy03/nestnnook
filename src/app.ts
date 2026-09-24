@@ -74,6 +74,7 @@ export class AppComponent {
     const name = String(data.get('tenantName') ?? '').trim().replace(/\s+/g, ' ');
     const types = data.getAll('roomTypes').map(String).filter(type => this.roomTypes.includes(type));
     const occupants = Number(data.get('occupants'));
+    const monthlyBudget = Number(data.get('monthlyBudget'));
     const location = String(data.get('location') ?? '');
     const moveInDate = String(data.get('moveInDate') ?? '').trim();
     const carPark = String(data.get('carPark') ?? '');
@@ -84,6 +85,10 @@ export class AppComponent {
       : ethnicityChoice;
     if (!name || !types.length || !Number.isSafeInteger(occupants) || occupants < 1 || !location) {
       this.formError.set(this.i18n.t(!name ? 'error.name' : !types.length ? 'error.roomType' : 'error.occupants'));
+      return;
+    }
+    if (!Number.isSafeInteger(monthlyBudget) || monthlyBudget < 1) {
+      this.formError.set(this.i18n.t('error.budget'));
       return;
     }
     if (!moveInDate) {
@@ -98,7 +103,7 @@ export class AppComponent {
       this.formError.set(this.i18n.t(ethnicityChoice === 'Others' ? 'error.ethnicity.specify' : 'error.ethnicity.choose'));
       return;
     }
-    const message = `Hi Nest & Nook! I would like to enquire about a room rental.\n\nName: ${name}\nPreferred room types: ${types.join(', ')}\nNumber of people: ${occupants}\nPreferred location: ${location}\nMove-in date: ${moveInDate}\nCar parking needed: ${carPark}\nHave a motorcycle: ${motorcycle}\nRace / ethnicity: ${ethnicity}\n\nCould you share suitable rooms, current prices and availability? Thank you!`;
+    const message = `Hi Nest & Nook! I would like to enquire about a room rental.\n\nName: ${name}\nPreferred room types: ${types.join(', ')}\nNumber of people: ${occupants}\nMonthly budget: RM ${monthlyBudget.toLocaleString('en-MY')}\nPreferred location: ${location}\nMove-in date: ${moveInDate}\nCar parking needed: ${carPark}\nHave a motorcycle: ${motorcycle}\nRace / ethnicity: ${ethnicity}\n\nCould you share suitable rooms, current prices and availability? Thank you!`;
     window.location.assign(`https://wa.me/${this.contact.whatsappNumber}?text=${encodeURIComponent(message)}`);
   }
 }
