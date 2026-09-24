@@ -22,10 +22,11 @@ export class AppComponent {
   readonly selectedEthnicity = signal('');
   readonly roomTypes = ['Single Room', 'Common Room', 'Balcony Room', 'Window Room', 'Master Room', 'Others'];
   readonly formError = signal('');
-  readonly todayDate = (() => {
+  readonly invalidMoveInDate = signal(false);
+  get todayDate(): string {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  })();
+  }
   readonly preferredRoomTypes = signal<string[]>([]);
   closeMenu(): void { this.menuOpen.set(false); }
   chooseLocation(location: string): void { this.preferredLocation.set(location); this.clearMessage(); }
@@ -41,9 +42,22 @@ export class AppComponent {
     this.clearMessage();
   }
   clearMessage(): void { this.formError.set(''); }
+  validateMoveInDate(input: HTMLInputElement): boolean {
+    input.min = this.todayDate;
+    const invalid = !!input.value && input.value < input.min;
+    this.invalidMoveInDate.set(invalid);
+    // Some mobile date pickers allow dates before min. Reject them explicitly.
+    if (invalid) input.value = '';
+    return !invalid;
+  }
   prepareEnquiry(event: Event, form: HTMLFormElement): void {
     event.preventDefault();
     this.clearMessage();
+    const dateInput = form.elements.namedItem('moveInDate') as HTMLInputElement;
+    if (!this.validateMoveInDate(dateInput)) {
+      dateInput.focus();
+      return;
+    }
     if (!form.reportValidity()) return;
     const data = new FormData(form);
     const name = String(data.get('tenantName') ?? '').trim().replace(/\s+/g, ' ');
