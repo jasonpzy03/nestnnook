@@ -9,3 +9,5 @@ export const ROOMS = [
   { file: 'R02 (2).jpg', type: 'Balcony Room', code: 'R02 · Another view', price: '1,488', features: 'Air conditioning · Shared bathroom' },
   { file: 'Common Area.jpg', type: 'Common Area', code: 'SHARED SPACE', price: '', features: 'A glimpse of the shared living space' }
 ] as const;
+
+export const FEATURED_ROOMS = ROOMS.slice(0, 4);

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CONTACT } from './site.config';
-import { ROOMS } from './rooms';
+import { FEATURED_ROOMS, ROOMS } from './rooms';
 import { LOCATIONS } from './locations';
 import { IconComponent } from './icon';
 import { GOOGLE_REVIEWS } from './reviews';
@@ -14,6 +14,7 @@ export class AppComponent {
   readonly year = new Date().getFullYear();
   readonly menuOpen = signal(false);
   readonly photos = ROOMS;
+  readonly featuredPhotos = FEATURED_ROOMS;
   readonly locations = LOCATIONS;
   readonly reviews = GOOGLE_REVIEWS;
   readonly showAll = signal(false);

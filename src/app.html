@@ -173,7 +173,7 @@
 
         <div class="room-grid">
             @for (
-                photo of (showAll() ? photos : photos.slice(0, 4));
+                photo of (showAll() ? photos : featuredPhotos);
                 track photo.file
                     ) {
                 <a href="#enquiry" class="room-card" (click)="chooseRoomType(photo.type)">
