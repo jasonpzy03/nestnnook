@@ -1,10 +1,26 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import ts from 'typescript';
+
+// Use the site's actual featured rooms, rather than duplicating changing prices.
+const roomSource = await readFile(new URL('../src/rooms.ts', import.meta.url), 'utf8');
+const { outputText } = ts.transpileModule(roomSource, {
+  compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 }
+});
+const { FEATURED_ROOMS } = await import(`data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`);
 
 const html = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8');
 const body = html.split('<body>')[1].replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
-for (const text of ['Johor Bahru room rental', 'CIQ room rental', 'JB room rental', 'Princess Cove', 'Trellis Residences', 'id="enquiry"', 'Tri Tower', 'Country Garden Danga Bay', 'Common Room', 'Balcony Room', 'Window Room', 'Master Room', '1,288', '1,488', '988', '1,788']) {
+for (const text of ['Johor Bahru room rental', 'CIQ room rental', 'JB room rental', 'Princess Cove', 'Trellis Residences', 'id="enquiry"', 'Tri Tower', 'Country Garden Danga Bay', 'Common Room', 'Balcony Room', 'Window Room', 'Master Room']) {
   assert.ok(body.replace(/\s+/g, ' ').includes(text), `Missing prerendered page content: ${text}`);
+}
+const roomCards = [...body.matchAll(/<a\b[^>]*class="[^"]*\broom-card\b[^"]*"[^>]*>([\s\S]*?)<\/a>/g)];
+assert.equal(roomCards.length, FEATURED_ROOMS.length, 'All featured room cards must be prerendered');
+for (const [index, room] of FEATURED_ROOMS.entries()) {
+  const card = roomCards[index][1].replace(/\s+/g, ' ');
+  for (const text of [room.code, room.type, room.price].filter(Boolean)) {
+    assert.ok(card.includes(text), `Missing prerendered room content for ${room.code}: ${text}`);
+  }
 }
 assert.equal((body.match(/<h1\b/g) || []).length, 1, 'Exactly one primary heading is required');
 assert.ok(!/t\.me\/|telegram/i.test(html), 'Telegram must not appear in the published page');
