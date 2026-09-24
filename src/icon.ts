@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 
 // Small, local SVG icons: no icon font, image requests or runtime dependency.
 const PATHS = {
+  check: ['m5 12 4 4L19 6'],
   arrowUpRight: ['M6 18 18 6M6 6h12v12'],
   star: ['m12 3 2.8 5.7 6.3.9-4.5 4.4 1 6.3-5.6-3-5.6 3 1-6.3L1.9 9.6l6.3-.9L12 3Z'],
   wifi: ['M2 8.8a16 16 0 0 1 20 0', 'M5 12a11 11 0 0 1 14 0', 'M8.5 15.3a5.5 5.5 0 0 1 7 0', 'M12 19h.01'],

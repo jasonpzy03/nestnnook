@@ -1127,6 +1127,29 @@ footer.section {
     min-width: 0;
 }
 
+.selection-summary {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid var(--gold);
+    border-left: 4px solid var(--gold);
+    border-radius: 12px;
+    background: #f8f3e8;
+    color: var(--navy);
+}
+
+.selection-summary-title,
+.selection-summary-values > span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-wrap: anywhere;
+}
+
+.selection-summary-title { font-size: 15px; line-height: 1.5; }
+.selection-summary-values { display: grid; gap: 10px; margin-top: 14px; }
+.selection-summary-values > span { font-size: 15px; font-weight: 600; }
+.selection-summary p { margin-top: 14px; font-size: 13px; line-height: 1.7; }
+
 .form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

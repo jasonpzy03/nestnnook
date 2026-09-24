@@ -354,6 +354,23 @@
             <p class="eyebrow">{{ i18n.t('enquiry.eyebrow') }}</p>
             <h2 id="enquiry-title">{{ i18n.t('enquiry.h2') }}</h2>
 
+            <div role="status" aria-live="polite" aria-atomic="true">
+                @if (showSelectionSummary() && (preferredLocation() || preferredRoomTypes().length)) {
+                    <div class="selection-summary">
+                        <strong class="selection-summary-title"><app-icon name="check" />{{ i18n.t('enquiry.selection.title') }}</strong>
+                        <div class="selection-summary-values">
+                            @if (preferredLocation()) {
+                                <span><app-icon name="pin" />{{ preferredLocation() === 'Open to suggestions' ? i18n.t('enquiry.location.open') : preferredLocation() }}</span>
+                            }
+                            @for (type of preferredRoomTypes(); track type) {
+                                <span><app-icon name="bed" />{{ i18n.t('roomType.' + type) }}</span>
+                            }
+                        </div>
+                        <p>{{ i18n.t('enquiry.selection.hint') }}</p>
+                    </div>
+                }
+            </div>
+
             <p>
                 {{ i18n.t('enquiry.desc') }}
             </p>
