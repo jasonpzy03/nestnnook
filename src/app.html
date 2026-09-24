@@ -413,6 +413,19 @@
                 </label>
             </div>
 
+            <label>
+                <app-icon class="field-icon" name="wallet" /> {{ i18n.t('enquiry.budget') }} <span>{{ i18n.t('enquiry.required') }}</span>
+                <input
+                        name="monthlyBudget"
+                        type="number"
+                        min="1"
+                        step="1"
+                        required
+                        inputmode="numeric"
+                        [placeholder]="i18n.t('enquiry.budget.placeholder')"
+                >
+            </label>
+
             <fieldset>
                 <legend>
                     {{ i18n.t('enquiry.roomTypes') }} <span>{{ i18n.t('enquiry.roomTypes.hint') }}</span>
