@@ -1531,6 +1531,7 @@ fieldset legend > span {
 .review-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
 .customer-review{margin:0;display:flex;flex-direction:column;padding:28px;background:var(--paper);border:1px solid #d6d9d1;min-width:0}
 .review-stars{display:flex;gap:5px;color:#a97c25}.review-stars app-icon{width:18px;height:18px}
+.review-stars app-icon svg,.review-score app-icon svg{fill:currentColor}
 .customer-review blockquote{margin:24px 0 28px;font-size:16px;line-height:1.85;color:var(--ink);flex:1}
 .customer-review figcaption{display:flex;align-items:center;justify-content:flex-start;gap:12px;padding:0;font-size:14px;letter-spacing:0;color:var(--ink)}
 .review-avatar{display:grid;place-items:center;flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#ecdfbd;color:var(--navy);font-weight:600;font-size:13px}
