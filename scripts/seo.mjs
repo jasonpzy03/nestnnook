@@ -40,6 +40,15 @@ const escapeXml = (value) => value.replace(/[&<>"']/g, (char) => ({'&':'&amp;','
 let metadata = `<script type="application/ld+json">${JSON.stringify(business).replace(/</g, '\\u003c')}</script>`;
 let robots = 'User-agent: *\nAllow: /\n';
 if (siteUrl) {
+  const website = {
+    '@context': 'https://schema.org', '@type': 'WebSite',
+    '@id': siteUrl + '#website',
+    name: business.name,
+    alternateName: 'Nest and Nook',
+    url: siteUrl,
+    publisher: { '@id': business['@id'] }
+  };
+  metadata += `\n<script type="application/ld+json">${JSON.stringify(website).replace(/</g, '\\u003c')}</script>`;
   metadata += `\n<link rel="canonical" href="${escapeXml(siteUrl)}">\n<meta property="og:url" content="${escapeXml(siteUrl)}">`;
   await writeFile(resolve(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${escapeXml(siteUrl)}</loc></url></urlset>\n`);
   robots += `\nSitemap: ${siteUrl}sitemap.xml\n`;
@@ -50,4 +59,4 @@ if (siteUrl) {
 html = html.replace('</head>', `<!-- generated-seo -->\n${metadata}\n<!-- /generated-seo -->\n</head>`);
 await writeFile(htmlPath, html);
 await writeFile(resolve(output, 'robots.txt'), robots);
-console.log('SEO: Added business structured data and robots.txt' + (siteUrl ? ', canonical URL and sitemap.' : '.'));
+console.log('SEO: Added business structured data and robots.txt' + (siteUrl ? ', WebSite structured data, canonical URL and sitemap.' : '.'));
