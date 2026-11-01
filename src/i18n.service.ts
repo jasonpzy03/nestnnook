@@ -6,7 +6,7 @@ export type Lang = 'en' | 'zh' | 'ms';
 export const LANGS: { code: Lang; short: string; label: string }[] = [
   { code: 'en', short: 'EN', label: 'English' },
   { code: 'zh', short: '中文', label: '中文' },
-  { code: 'ms', short: 'BM', label: 'Bahasa Melayu' }
+  { code: 'ms', short: 'BM', label: 'Bahasa Melayu' },
 ];
 
 const HTML_LANGS: Record<Lang, string> = { en: 'en-MY', zh: 'zh-MY', ms: 'ms-MY' };
@@ -16,8 +16,10 @@ function loadLang(): Lang {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === 'en' || stored === 'zh' || stored === 'ms') return stored;
-  } catch { /* SSR or private mode */ }
-  
+  } catch {
+    /* SSR or private mode */
+  }
+
   if (typeof navigator !== 'undefined' && navigator.language) {
     const sys = navigator.language.toLowerCase();
     if (sys.startsWith('zh')) return 'zh';
@@ -44,7 +46,11 @@ export class I18nService {
   setLang(lang: Lang): void {
     this.lang.set(lang);
     this.applyHtmlLang(lang);
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch { /* SSR */ }
+    try {
+      localStorage.setItem(STORAGE_KEY, lang);
+    } catch {
+      /* SSR */
+    }
   }
 
   private applyHtmlLang(lang: Lang): void {

@@ -5,9 +5,8 @@ import { AppComponent } from './app';
 import { appConfig } from './app.config';
 
 const serverConfig = mergeApplicationConfig(appConfig, {
-  providers: [provideServerRendering(withRoutes([
-    { path: '', renderMode: RenderMode.Prerender }
-  ]))]
+  providers: [provideServerRendering(withRoutes([{ path: '', renderMode: RenderMode.Prerender }]))],
 });
 
-export default (context: BootstrapContext) => bootstrapApplication(AppComponent, serverConfig, context);
+export default (context: BootstrapContext) =>
+  bootstrapApplication(AppComponent, serverConfig, context);

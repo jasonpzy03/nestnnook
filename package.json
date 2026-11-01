@@ -5,7 +5,9 @@
   "scripts": {
     "start": "ng serve --host 127.0.0.1",
     "build": "ng build && node scripts/seo.mjs && node scripts/check-seo.mjs",
-    "check:seo": "node scripts/check-seo.mjs"
+    "check:seo": "node scripts/check-seo.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@angular/common": "^21.2.23",
@@ -22,6 +24,7 @@
     "@angular/cli": "^21.2.24",
     "@angular/compiler-cli": "^21.2.23",
     "angular-cli-ghpages": "^3.1.0",
+    "prettier": "3.9.10",
     "typescript": "~5.9.3"
   }
 }

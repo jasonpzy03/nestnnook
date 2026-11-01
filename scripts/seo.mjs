@@ -8,9 +8,18 @@ const configuredUrl = process.env.SITE_URL || config.siteUrl;
 let siteUrl;
 if (configuredUrl) {
   const parsed = new URL(configuredUrl);
-  if (parsed.protocol !== 'https:' || parsed.username || parsed.password || parsed.search || parsed.hash ||
-      /^(localhost|127\.|\[::1\])/.test(parsed.hostname) || !parsed.hostname.includes('.')) {
-    throw new Error('SITE_URL must be the public HTTPS website URL, without credentials, query parameters or fragments.');
+  if (
+    parsed.protocol !== 'https:' ||
+    parsed.username ||
+    parsed.password ||
+    parsed.search ||
+    parsed.hash ||
+    /^(localhost|127\.|\[::1\])/.test(parsed.hostname) ||
+    !parsed.hostname.includes('.')
+  ) {
+    throw new Error(
+      'SITE_URL must be the public HTTPS website URL, without credentials, query parameters or fragments.',
+    );
   }
   siteUrl = parsed.href.replace(/\/+$/, '') + '/';
 }
@@ -29,34 +38,59 @@ const contactField = (name) => {
   return value;
 };
 const business = {
-  '@context': 'https://schema.org', '@type': 'RealEstateAgent', name: 'Nest & Nook',
-  description: 'Property management and room rentals in Johor Bahru, including R&F Princess Cove, Trellis Residences and locations near CIQ.',
-  telephone: '+' + contactField('whatsappNumber'), email: contactField('email'),
-  address: { '@type': 'PostalAddress', addressLocality: 'Johor Bahru', addressRegion: 'Johor', addressCountry: 'MY' },
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: 'Nest & Nook',
+  description:
+    'Property management and room rentals in Johor Bahru, including R&F Princess Cove, Trellis Residences and locations near CIQ.',
+  telephone: '+' + contactField('whatsappNumber'),
+  email: contactField('email'),
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Johor Bahru',
+    addressRegion: 'Johor',
+    addressCountry: 'MY',
+  },
   areaServed: { '@type': 'City', name: 'Johor Bahru' },
-  ...(siteUrl ? { '@id': siteUrl + '#business', url: siteUrl } : {})
+  ...(siteUrl ? { '@id': siteUrl + '#business', url: siteUrl } : {}),
 };
-const escapeXml = (value) => value.replace(/[&<>"']/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]));
+const escapeXml = (value) =>
+  value.replace(
+    /[&<>"']/g,
+    (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[char],
+  );
 let metadata = `<script type="application/ld+json">${JSON.stringify(business).replace(/</g, '\\u003c')}</script>`;
 let robots = 'User-agent: *\nAllow: /\n';
 if (siteUrl) {
   const website = {
-    '@context': 'https://schema.org', '@type': 'WebSite',
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
     '@id': siteUrl + '#website',
     name: business.name,
     alternateName: 'Nest and Nook',
     url: siteUrl,
-    publisher: { '@id': business['@id'] }
+    publisher: { '@id': business['@id'] },
   };
   metadata += `\n<script type="application/ld+json">${JSON.stringify(website).replace(/</g, '\\u003c')}</script>`;
   metadata += `\n<link rel="canonical" href="${escapeXml(siteUrl)}">\n<meta property="og:url" content="${escapeXml(siteUrl)}">`;
-  await writeFile(resolve(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${escapeXml(siteUrl)}</loc></url></urlset>\n`);
+  await writeFile(
+    resolve(output, 'sitemap.xml'),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${escapeXml(siteUrl)}</loc></url></urlset>\n`,
+  );
   robots += `\nSitemap: ${siteUrl}sitemap.xml\n`;
 } else {
   await rm(resolve(output, 'sitemap.xml'), { force: true });
-  console.warn('SEO: No public domain configured. Set siteUrl in seo.config.json or SITE_URL before deployment to generate the canonical URL and sitemap.');
+  console.warn(
+    'SEO: No public domain configured. Set siteUrl in seo.config.json or SITE_URL before deployment to generate the canonical URL and sitemap.',
+  );
 }
-html = html.replace('</head>', `<!-- generated-seo -->\n${metadata}\n<!-- /generated-seo -->\n</head>`);
+html = html.replace(
+  '</head>',
+  `<!-- generated-seo -->\n${metadata}\n<!-- /generated-seo -->\n</head>`,
+);
 await writeFile(htmlPath, html);
 await writeFile(resolve(output, 'robots.txt'), robots);
-console.log('SEO: Added business structured data and robots.txt' + (siteUrl ? ', WebSite structured data, canonical URL and sitemap.' : '.'));
+console.log(
+  'SEO: Added business structured data and robots.txt' +
+    (siteUrl ? ', WebSite structured data, canonical URL and sitemap.' : '.'),
+);
