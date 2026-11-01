@@ -1,586 +1,633 @@
 <a class="skip-link" href="#main">{{ i18n.t('skip') }}</a>
 
 <header>
-    <div class="nav-shell">
-        <a class="brand" href="#" [attr.aria-label]="i18n.t('aria.brand')">
-            Nest <span>&</span> Nook
-            <small>{{ i18n.t('brand.tagline') }}</small>
-        </a>
+  <div class="nav-shell">
+    <a class="brand" href="#" [attr.aria-label]="i18n.t('aria.brand')">
+      Nest <span>&</span> Nook
+      <small>{{ i18n.t('brand.tagline') }}</small>
+    </a>
 
-        <app-lang-switcher></app-lang-switcher>
+    <app-lang-switcher></app-lang-switcher>
 
-        <button
-                class="menu-toggle"
-                type="button"
-                (click)="menuOpen.set(!menuOpen())"
-                [attr.aria-expanded]="menuOpen()"
-                aria-controls="navigation"
-        >
-            {{ menuOpen() ? i18n.t('nav.close') : i18n.t('nav.menu') }}
-        </button>
+    <button
+      class="menu-toggle"
+      type="button"
+      (click)="menuOpen.set(!menuOpen())"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="navigation"
+    >
+      {{ menuOpen() ? i18n.t('nav.close') : i18n.t('nav.menu') }}
+    </button>
 
-        <nav
-                id="navigation"
-                [class.open]="menuOpen()"
-                aria-label="Main navigation"
-        >
-            <a href="#about" (click)="closeMenu()">{{ i18n.t('nav.story') }}</a>
-            <a href="#locations" (click)="closeMenu()">{{ i18n.t('nav.locations') }}</a>
-            <a href="#rooms" (click)="closeMenu()">{{ i18n.t('nav.rooms') }}</a>
-            <a class="button small" href="#contact" (click)="closeMenu()">
-                {{ i18n.t('nav.cta') }} <span><app-icon name="arrowUpRight" /></span>
-            </a>
-        </nav>
-    </div>
+    <nav id="navigation" [class.open]="menuOpen()" aria-label="Main navigation">
+      <a href="#about" (click)="closeMenu()">{{ i18n.t('nav.story') }}</a>
+      <a href="#locations" (click)="closeMenu()">{{ i18n.t('nav.locations') }}</a>
+      <a href="#rooms" (click)="closeMenu()">{{ i18n.t('nav.rooms') }}</a>
+      <a class="button small" href="#contact" (click)="closeMenu()">
+        {{ i18n.t('nav.cta') }} <span><app-icon name="arrowUpRight" /></span>
+      </a>
+    </nav>
+  </div>
 </header>
 
 <main id="main">
-    <section class="hero">
-        <div class="hero-copy">
-            <p class="eyebrow">
-                <span class="line"></span>
-                {{ i18n.t('hero.eyebrow') }}
-            </p>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">
+        <span class="line"></span>
+        {{ i18n.t('hero.eyebrow') }}
+      </p>
 
-            <h1>
-                {{ i18n.t('hero.h1.1') }}<br>
-                {{ i18n.t('hero.h1.2') }}<br>
-                <em>{{ i18n.t('hero.h1.3') }}</em>
-            </h1>
+      <h1>
+        {{ i18n.t('hero.h1.1') }}<br />
+        {{ i18n.t('hero.h1.2') }}<br />
+        <em>{{ i18n.t('hero.h1.3') }}</em>
+      </h1>
 
-            <p class="hero-description">
-                {{ i18n.t('hero.desc') }}
-            </p>
+      <p class="hero-description">{{ i18n.t('hero.desc') }}</p>
 
-            <p class="hero-benefit"><app-icon name="check" />{{ i18n.t('package.summary.2') }}</p>
+      <p class="hero-benefit"><app-icon name="check" />{{ i18n.t('package.summary.2') }}</p>
 
-            <div class="actions">
-                <a class="button gold" href="#enquiry">
-                    <app-icon name="whatsapp" /> {{ i18n.t('hero.cta') }} <span><app-icon name="arrowUpRight" /></span>
-                </a>
+      <div class="actions">
+        <a class="button gold" href="#enquiry">
+          <app-icon name="whatsapp" /> {{ i18n.t('hero.cta') }}
+          <span><app-icon name="arrowUpRight" /></span>
+        </a>
 
-                <a class="text-link" href="#rooms">
-                    {{ i18n.t('hero.explore') }} <span>↓</span>
-                </a>
-            </div>
+        <a class="text-link" href="#rooms"> {{ i18n.t('hero.explore') }} <span>↓</span> </a>
+      </div>
 
-            <div class="hero-location">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/>
-                    <circle cx="12" cy="10" r="2.5"/>
-                </svg>
-                R&F Princess Cove <span>·</span> Trellis <span>·</span> Near CIQ
-            </div>
-        </div>
-
-        <div class="hero-image">
-            <img
-                    src="assets/R07.jpg"
-                    alt="A furnished Nest & Nook common room with a double bed and wardrobe"
-                    fetchpriority="high"
-                    width="1280"
-                    height="960"
-            >
-
-            <div class="image-caption">
-                <span>{{ i18n.t('hero.caption.1') }}</span>
-                <span>{{ i18n.t('hero.caption.2') }}</span>
-            </div>
-
-            <div class="hero-label">
-                {{ i18n.t('hero.label.1') }}<br>
-                <i>{{ i18n.t('hero.label.2') }}</i>
-            </div>
-        </div>
-    </section>
-
-    <div class="intro-strip">
-        <span>{{ i18n.t('intro.tagline') }}</span>
-        <p>
-            {{ i18n.t('intro.rentals') }} <b>✦</b>
-            {{ i18n.t('intro.management') }} <b>✦</b>
-            {{ i18n.t('intro.coliving') }}
-        </p>
+      <div class="hero-location">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />
+          <circle cx="12" cy="10" r="2.5" />
+        </svg>
+        R&F Princess Cove <span>·</span> Trellis <span>·</span> Near CIQ
+      </div>
     </div>
 
-    <section class="section about" id="about">
-        <div>
-            <p class="eyebrow">{{ i18n.t('about.eyebrow') }}</p>
-            <h2>
-                {{ i18n.t('about.h2.1') }}<br>
-                {{ i18n.t('about.h2.2') }}
-            </h2>
-        </div>
+    <div class="hero-image">
+      <img
+        src="assets/R07.jpg"
+        alt="A furnished Nest & Nook common room with a double bed and wardrobe"
+        fetchpriority="high"
+        width="1280"
+        height="960"
+      />
 
-        <div class="about-copy">
-            <p>
-                {{ i18n.t('about.p1') }}
-            </p>
-
-            <p>
-                {{ i18n.t('about.p2') }}
-            </p>
-
-            <a class="text-link navy-link" href="#contact">
-                {{ i18n.t('about.cta') }} <span><app-icon name="arrowUpRight" /></span>
-            </a>
-        </div>
-    </section>
-
-    <section class="locations-section" id="locations">
-        <div class="section">
-            <div class="section-heading">
-                <div>
-                    <p class="eyebrow">{{ i18n.t('locations.eyebrow') }}</p>
-                    <h2>{{ i18n.t('locations.h2') }}</h2>
-                </div>
-
-                <p>
-                    {{ i18n.t('locations.subtitle.1') }}<br>
-                    {{ i18n.t('locations.subtitle.2') }}
-                </p>
-            </div>
-
-            <div class="location-grid property-grid">
-                @for (location of locations; track location.name) {
-                    <a class="location-card property-card" [class.property-card-text]="!location.image" href="#enquiry" (click)="chooseLocation(location.name)">
-                        @if (location.image) {
-                            <img class="property-thumbnail" [src]="'assets/' + location.image" [alt]="location.name + ' exterior'" loading="lazy" width="640" height="400">
-                        }
-                        <div class="property-copy">
-                            <span class="location-tag journey-label"><app-icon [name]="location.journey.includes('shuttle') || location.journey.includes('bas') ? 'bus' : 'walk'" />{{ location.journey }}</span>
-                            <h3>{{ location.name }}</h3>
-                            <p>{{ location.description }}</p>
-                            <span class="card-link">{{ i18n.t('locations.card.cta') }} <span><app-icon name="arrowUpRight" /></span></span>
-                        </div>
-                    </a>
-                }
-            </div>
-        </div>
-    </section>
-
-    <section class="room-photos-section" id="rooms">
-      <div class="section rooms">
-        <div class="section-heading">
-            <div>
-                <p class="eyebrow">{{ i18n.t('rooms.eyebrow') }}</p>
-                <h2>{{ i18n.t('rooms.h2') }}</h2>
-            </div>
-
-            <p>
-                {{ i18n.t('rooms.subtitle.1') }}<br>
-                {{ i18n.t('rooms.subtitle.2') }}
-            </p>
-        </div>
-
-        <div class="room-grid">
-            @for (
-                photo of (showAll() ? photos : featuredPhotos);
-                track photo.file
-                    ) {
-                <a href="#enquiry" class="room-card" (click)="chooseRoomType(photo.type)">
-                    <img
-                            [src]="'assets/' + photo.file"
-                            [alt]="photo.type + ' — ' + photo.features"
-                            loading="lazy"
-                    >
-
-                    <div class="room-caption">
-                        <div class="room-caption-top">
-                            <span>{{ photo.code }}</span>
-
-                            @if (photo.price) {
-                                <span class="room-price">
-                  RM {{ photo.price }}
-                                    <small>{{ i18n.t('rooms.perMonth') }}</small>
-                </span>
-                            }
-                        </div>
-
-                        <h3 class="room-type-heading"><app-icon [name]="photo.price ? 'bed' : 'home'" />{{ photo.type }}</h3>
-                        <p>{{ photo.features }}</p>
-                    </div>
-                </a>
-            }
-        </div>
-
-        <div class="gallery-footer">
-            <p>
-                {{ i18n.t('rooms.disclaimer') }}
-            </p>
-
-            <button
-                    class="text-link navy-link"
-                    type="button"
-                    (click)="showAll.set(!showAll())"
-                    [attr.aria-expanded]="showAll()"
-            >
-                {{ showAll() ? i18n.t('rooms.showLess') : i18n.t('rooms.showAll') }}
-                <span>{{ showAll() ? '−' : '+' }}</span>
-            </button>
-        </div>
-
+      <div class="image-caption">
+        <span>{{ i18n.t('hero.caption.1') }}</span>
+        <span>{{ i18n.t('hero.caption.2') }}</span>
       </div>
-    </section>
 
-        <section
-                class="section inclusions package-section" id="room-package"
-                aria-labelledby="inclusions-title"
+      <div class="hero-label">
+        {{ i18n.t('hero.label.1') }}<br />
+        <i>{{ i18n.t('hero.label.2') }}</i>
+      </div>
+    </div>
+  </section>
+
+  <div class="intro-strip">
+    <span>{{ i18n.t('intro.tagline') }}</span>
+    <p>
+      {{ i18n.t('intro.rentals') }} <b>✦</b> {{ i18n.t('intro.management') }} <b>✦</b>
+      {{ i18n.t('intro.coliving') }}
+    </p>
+  </div>
+
+  <section class="section about" id="about">
+    <div>
+      <p class="eyebrow">{{ i18n.t('about.eyebrow') }}</p>
+      <h2>
+        {{ i18n.t('about.h2.1') }}<br />
+        {{ i18n.t('about.h2.2') }}
+      </h2>
+    </div>
+
+    <div class="about-copy">
+      <p>{{ i18n.t('about.p1') }}</p>
+
+      <p>{{ i18n.t('about.p2') }}</p>
+
+      <a class="text-link navy-link" href="#contact">
+        {{ i18n.t('about.cta') }} <span><app-icon name="arrowUpRight" /></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="locations-section" id="locations">
+    <div class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{{ i18n.t('locations.eyebrow') }}</p>
+          <h2>{{ i18n.t('locations.h2') }}</h2>
+        </div>
+
+        <p>
+          {{ i18n.t('locations.subtitle.1') }}<br />
+          {{ i18n.t('locations.subtitle.2') }}
+        </p>
+      </div>
+
+      <div class="location-grid property-grid">
+        @for (location of locations; track location.name) {
+        <a
+          class="location-card property-card"
+          [class.property-card-text]="!location.image"
+          href="#enquiry"
+          (click)="chooseLocation(location.name)"
         >
-            <p class="eyebrow">{{ i18n.t('package.eyebrow') }}</p>
-            <h2 id="inclusions-title">{{ i18n.t('package.h2') }}</h2>
+          @if (location.image) {
+          <img
+            class="property-thumbnail"
+            [src]="'assets/' + location.image"
+            [alt]="location.name + ' exterior'"
+            loading="lazy"
+            width="640"
+            height="400"
+          />
+          }
+          <div class="property-copy">
+            <span class="location-tag journey-label"
+              ><app-icon
+                [name]="location.journey.includes('shuttle') || location.journey.includes('bas') ? 'bus' : 'walk'"
+              />{{ location.journey }}</span
+            >
+            <h3>{{ location.name }}</h3>
+            <p>{{ location.description }}</p>
+            <span class="card-link"
+              >{{ i18n.t('locations.card.cta') }} <span><app-icon name="arrowUpRight" /></span
+            ></span>
+          </div>
+        </a>
+        }
+      </div>
+    </div>
+  </section>
 
-                    <div class="rental-summary">
-            <span>{{ i18n.t('package.summary.1') }}</span>
-            <strong>{{ i18n.t('package.summary.2') }}</strong>
+  <section class="room-photos-section" id="rooms">
+    <div class="section rooms">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{{ i18n.t('rooms.eyebrow') }}</p>
+          <h2>{{ i18n.t('rooms.h2') }}</h2>
         </div>
 
-            <dl class="inclusions-grid">
-                <div>
-                    <dt><span class="amenity-icon"><app-icon name="wifi" /></span>{{ i18n.t('package.utilities.title') }}</dt>
-                    <dd>
-                        {{ i18n.t('package.utilities.desc') }}
-                    </dd>
-                </div>
+        <p>
+          {{ i18n.t('rooms.subtitle.1') }}<br />
+          {{ i18n.t('rooms.subtitle.2') }}
+        </p>
+      </div>
 
-                <div>
-                    <dt><span class="amenity-icon"><app-icon name="snowflake" /></span>{{ i18n.t('package.ac.title') }}</dt>
-                    <dd>
-                        {{ i18n.t('package.ac.desc') }}
-                    </dd>
-                </div>
+      <div class="room-grid">
+        @for ( photo of (showAll() ? photos : featuredPhotos); track photo.file ) {
+        <a href="#enquiry" class="room-card" (click)="chooseRoomType(photo.type)">
+          <img
+            [src]="'assets/' + photo.file"
+            [alt]="photo.type + ' — ' + photo.features"
+            loading="lazy"
+          />
 
-                <div>
-                    <dt><span class="amenity-icon"><app-icon name="sparkle" /></span>{{ i18n.t('package.cleaning.title') }}</dt>
-                    <dd>{{ i18n.t('package.cleaning.desc') }}</dd>
-                </div>
+          <div class="room-caption">
+            <div class="room-caption-top">
+              <span>{{ photo.code }}</span>
 
-                <div>
-                    <dt><span class="amenity-icon"><app-icon name="shield" /></span>{{ i18n.t('package.cctv.title') }}</dt>
-                    <dd>{{ i18n.t('package.cctv.desc') }}</dd>
-                </div>
-
-                <div>
-                    <dt><span class="amenity-icon"><app-icon name="washer" /></span>{{ i18n.t('package.appliances.title') }}</dt>
-                    <dd>
-                        {{ i18n.t('package.appliances.desc') }}
-                    </dd>
-                </div>
-
-                <div>
-                    <dt><span class="amenity-icon"><app-icon name="wallet" /></span>{{ i18n.t('package.deposit.title') }}</dt>
-                    <dd>
-                        {{ i18n.t('package.deposit.desc') }}
-                    </dd>
-                </div>
-            </dl>
-
-            <p class="inclusions-note">
-                {{ i18n.t('package.note') }}
-            </p>
-        </section>
-
-    <section class="reviews-section" id="reviews" aria-labelledby="reviews-title">
-        <div class="section reviews-inner">
-            <div class="reviews-copy">
-                <p class="eyebrow">{{ i18n.t('reviews.eyebrow') }}</p>
-                <h2 id="reviews-title">{{ i18n.t('reviews.h2') }}</h2>
-                <p>{{ i18n.t('reviews.desc') }}</p>
+              @if (photo.price) {
+              <span class="room-price">
+                RM {{ photo.price }}
+                <small>{{ i18n.t('rooms.perMonth') }}</small>
+              </span>
+              }
             </div>
-            <a class="google-rating-card" [href]="contact.googleReviewsUrl" target="_blank" rel="noopener noreferrer" [attr.aria-label]="i18n.t('aria.rating')">
-                <span class="review-source"><img class="google-logo" src="google-g.svg" width="24" height="24" alt="">{{ i18n.t('reviews.source') }}</span>
-                <span class="review-score"><app-icon name="star" /><strong>4.8</strong><span>/ 5</span></span>
-                <span class="review-business">{{ i18n.t('reviews.business') }}</span>
-                <span class="review-date">{{ i18n.t('reviews.date') }}</span>
-                <span class="review-cta">{{ i18n.t('reviews.cta') }} <span aria-hidden="true"><app-icon name="arrowUpRight" /></span></span>
-            </a>
+
+            <h3 class="room-type-heading">
+              <app-icon [name]="photo.price ? 'bed' : 'home'" />{{ photo.type }}
+            </h3>
+            @if (photo.price) {
+            <ul class="room-features">
+              @for (feature of photo.features.split(' · '); track feature) {
+              <li>{{ feature }}</li>
+              }
+            </ul>
+            } @else {
+            <p>{{ photo.features }}</p>
+            }
+          </div>
+        </a>
+        }
+      </div>
+
+      <div class="gallery-footer">
+        <p>{{ i18n.t('rooms.disclaimer') }}</p>
+
+        <button
+          class="text-link navy-link"
+          type="button"
+          (click)="showAll.set(!showAll())"
+          [attr.aria-expanded]="showAll()"
+        >
+          {{ showAll() ? i18n.t('rooms.showLess') : i18n.t('rooms.showAll') }}
+          <span>{{ showAll() ? '−' : '+' }}</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="section inclusions package-section"
+    id="room-package"
+    aria-labelledby="inclusions-title"
+  >
+    <p class="eyebrow">{{ i18n.t('package.eyebrow') }}</p>
+    <h2 id="inclusions-title">{{ i18n.t('package.h2') }}</h2>
+
+    <div class="rental-summary">
+      <span>{{ i18n.t('package.summary.1') }}</span>
+      <strong>{{ i18n.t('package.summary.2') }}</strong>
+    </div>
+
+    <dl class="inclusions-grid">
+      <div>
+        <dt>
+          <span class="amenity-icon"><app-icon name="wifi" /></span>{{
+          i18n.t('package.utilities.title') }}
+        </dt>
+        <dd>{{ i18n.t('package.utilities.desc') }}</dd>
+      </div>
+
+      <div>
+        <dt>
+          <span class="amenity-icon"><app-icon name="snowflake" /></span>{{
+          i18n.t('package.ac.title') }}
+        </dt>
+        <dd>{{ i18n.t('package.ac.desc') }}</dd>
+      </div>
+
+      <div>
+        <dt>
+          <span class="amenity-icon"><app-icon name="sparkle" /></span>{{
+          i18n.t('package.cleaning.title') }}
+        </dt>
+        <dd>{{ i18n.t('package.cleaning.desc') }}</dd>
+      </div>
+
+      <div>
+        <dt>
+          <span class="amenity-icon"><app-icon name="shield" /></span>{{
+          i18n.t('package.cctv.title') }}
+        </dt>
+        <dd>{{ i18n.t('package.cctv.desc') }}</dd>
+      </div>
+
+      <div>
+        <dt>
+          <span class="amenity-icon"><app-icon name="washer" /></span>{{
+          i18n.t('package.appliances.title') }}
+        </dt>
+        <dd>{{ i18n.t('package.appliances.desc') }}</dd>
+      </div>
+
+      <div>
+        <dt>
+          <span class="amenity-icon"><app-icon name="wallet" /></span>{{
+          i18n.t('package.deposit.title') }}
+        </dt>
+        <dd>{{ i18n.t('package.deposit.desc') }}</dd>
+      </div>
+    </dl>
+
+    <p class="inclusions-note">{{ i18n.t('package.note') }}</p>
+  </section>
+
+  <section class="reviews-section" id="reviews" aria-labelledby="reviews-title">
+    <div class="section reviews-inner">
+      <div class="reviews-copy">
+        <p class="eyebrow">{{ i18n.t('reviews.eyebrow') }}</p>
+        <h2 id="reviews-title">{{ i18n.t('reviews.h2') }}</h2>
+        <p>{{ i18n.t('reviews.desc') }}</p>
+      </div>
+      <a
+        class="google-rating-card"
+        [href]="contact.googleReviewsUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="i18n.t('aria.rating')"
+      >
+        <span class="review-source"
+          ><img class="google-logo" src="google-g.svg" width="24" height="24" alt="" />{{
+          i18n.t('reviews.source') }}</span
+        >
+        <span class="review-score"
+          ><app-icon name="star" /><strong>4.8</strong><span>/ 5</span></span
+        >
+        <span class="review-business">{{ i18n.t('reviews.business') }}</span>
+        <span class="review-date">{{ i18n.t('reviews.date') }}</span>
+        <span class="review-cta"
+          >{{ i18n.t('reviews.cta') }}
+          <span aria-hidden="true"><app-icon name="arrowUpRight" /></span
+        ></span>
+      </a>
+    </div>
+    <div class="section review-cards-wrap">
+      <p class="review-selection-label">{{ i18n.t('reviews.selected') }}</p>
+      <div class="review-cards">
+        @for (review of reviews; track review.url) {
+        <figure class="customer-review">
+          <div
+            class="review-stars"
+            role="img"
+            [attr.aria-label]="review.rating + ' out of 5 stars'"
+          >
+            @for (star of [1, 2, 3, 4, 5]; track star) {<app-icon name="star" />}
+          </div>
+          <blockquote>{{ review.quote }}</blockquote>
+          <figcaption>
+            <span class="review-avatar" aria-hidden="true">{{ review.initials }}</span>
+            <span
+              ><strong>{{ review.author }}</strong
+              ><small class="google-review-label"
+                ><img class="google-logo" src="google-g.svg" width="16" height="16" alt="" />{{
+                i18n.t('reviews.label') }}{{ review.excerpt ? i18n.t('reviews.excerpt') : ''
+                }}</small
+              ></span
+            >
+          </figcaption>
+          <a
+            class="text-link navy-link"
+            [href]="review.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="'Read ' + review.author + '\'s original review on Google'"
+            >{{ i18n.t('reviews.readOn') }}
+            <span aria-hidden="true"><app-icon name="arrowUpRight" /></span
+          ></a>
+        </figure>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <div class="section contact-inner">
+      <div>
+        <p class="eyebrow">{{ i18n.t('contact.eyebrow') }}</p>
+
+        <h2>
+          {{ i18n.t('contact.h2.1') }}<br />
+          {{ i18n.t('contact.h2.2') }} <em>{{ i18n.t('contact.h2.3') }}</em>
+        </h2>
+
+        <p>
+          {{ i18n.t('contact.desc') }}<br />
+          {{ i18n.t('contact.desc2') }}
+        </p>
+      </div>
+
+      <div class="contact-options">
+        <a class="contact-card" href="#enquiry">
+          <span class="contact-icon whatsapp-contact-icon"><app-icon name="whatsapp" /></span>
+
+          <div>
+            <h3>{{ i18n.t('contact.whatsapp.title') }}</h3>
+            <p>{{ i18n.t('contact.whatsapp.desc') }}</p>
+            <span>{{ contact.displayPhone }} · {{ contact.displayName }}</span>
+          </div>
+
+          <span aria-hidden="true"><app-icon name="arrowUpRight" /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section enquiry-section" id="enquiry" aria-labelledby="enquiry-title">
+    <div class="enquiry-intro">
+      <p class="eyebrow">{{ i18n.t('enquiry.eyebrow') }}</p>
+      <h2 id="enquiry-title">{{ i18n.t('enquiry.h2') }}</h2>
+
+      <div role="status" aria-live="polite" aria-atomic="true">
+        @if (showSelectionSummary() && (preferredLocation() || preferredRoomTypes().length)) {
+        <div class="selection-summary">
+          <strong class="selection-summary-title"
+            ><app-icon name="check" />{{ i18n.t('enquiry.selection.title') }}</strong
+          >
+          <div class="selection-summary-values">
+            @if (preferredLocation()) {
+            <span
+              ><app-icon name="pin" />{{ preferredLocation() === 'Open to suggestions' ?
+              i18n.t('enquiry.location.open') : preferredLocation() }}</span
+            >
+            } @for (type of preferredRoomTypes(); track type) {
+            <span><app-icon name="bed" />{{ i18n.t('roomType.' + type) }}</span>
+            }
+          </div>
+          <p>{{ i18n.t('enquiry.selection.hint') }}</p>
         </div>
-        <div class="section review-cards-wrap">
-            <p class="review-selection-label">{{ i18n.t('reviews.selected') }}</p>
-            <div class="review-cards">
-                @for (review of reviews; track review.url) {
-                    <figure class="customer-review">
-                        <div class="review-stars" role="img" [attr.aria-label]="review.rating + ' out of 5 stars'">
-                            @for (star of [1, 2, 3, 4, 5]; track star) {<app-icon name="star" />}
-                        </div>
-                        <blockquote>{{ review.quote }}</blockquote>
-                        <figcaption>
-                            <span class="review-avatar" aria-hidden="true">{{ review.initials }}</span>
-                            <span><strong>{{ review.author }}</strong><small class="google-review-label"><img class="google-logo" src="google-g.svg" width="16" height="16" alt="">{{ i18n.t('reviews.label') }}{{ review.excerpt ? i18n.t('reviews.excerpt') : '' }}</small></span>
-                        </figcaption>
-                        <a class="text-link navy-link" [href]="review.url" target="_blank" rel="noopener noreferrer" [attr.aria-label]="'Read ' + review.author + '\'s original review on Google'">{{ i18n.t('reviews.readOn') }} <span aria-hidden="true"><app-icon name="arrowUpRight" /></span></a>
-                    </figure>
-                }
-            </div>
-        </div>
-    </section>
+        }
+      </div>
 
-    <section class="contact-section" id="contact">
-        <div class="section contact-inner">
-            <div>
-                <p class="eyebrow">{{ i18n.t('contact.eyebrow') }}</p>
+      <p>{{ i18n.t('enquiry.desc') }}</p>
 
-                <h2>
-                    {{ i18n.t('contact.h2.1') }}<br>
-                    {{ i18n.t('contact.h2.2') }} <em>{{ i18n.t('contact.h2.3') }}</em>
-                </h2>
+      <p class="enquiry-note">{{ i18n.t('enquiry.privacy') }}</p>
+    </div>
 
-                <p>
-                    {{ i18n.t('contact.desc') }}<br>
-                    {{ i18n.t('contact.desc2') }}
-                </p>
-            </div>
-
-            <div class="contact-options">
-                <a class="contact-card" href="#enquiry">
-                    <span class="contact-icon whatsapp-contact-icon"><app-icon name="whatsapp" /></span>
-
-                    <div>
-                        <h3>{{ i18n.t('contact.whatsapp.title') }}</h3>
-                        <p>{{ i18n.t('contact.whatsapp.desc') }}</p>
-                        <span>{{ contact.displayPhone }} · {{ contact.displayName }}</span>
-                    </div>
-
-                    <span aria-hidden="true"><app-icon name="arrowUpRight" /></span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section
-            class="section enquiry-section"
-            id="enquiry"
-            aria-labelledby="enquiry-title"
+    <form
+      #enquiryForm
+      (submit)="prepareEnquiry($event, enquiryForm)"
+      (input)="clearMessage()"
+      (change)="clearMessage()"
+      class="enquiry-form"
     >
-        <div class="enquiry-intro">
-            <p class="eyebrow">{{ i18n.t('enquiry.eyebrow') }}</p>
-            <h2 id="enquiry-title">{{ i18n.t('enquiry.h2') }}</h2>
+      <div class="form-grid">
+        <label>
+          <app-icon class="field-icon" name="user" /> {{ i18n.t('enquiry.name') }}
+          <span>{{ i18n.t('enquiry.required') }}</span>
+          <input
+            name="tenantName"
+            autocomplete="name"
+            required
+            maxlength="80"
+            [placeholder]="i18n.t('enquiry.name.placeholder')"
+          />
+        </label>
 
-            <div role="status" aria-live="polite" aria-atomic="true">
-                @if (showSelectionSummary() && (preferredLocation() || preferredRoomTypes().length)) {
-                    <div class="selection-summary">
-                        <strong class="selection-summary-title"><app-icon name="check" />{{ i18n.t('enquiry.selection.title') }}</strong>
-                        <div class="selection-summary-values">
-                            @if (preferredLocation()) {
-                                <span><app-icon name="pin" />{{ preferredLocation() === 'Open to suggestions' ? i18n.t('enquiry.location.open') : preferredLocation() }}</span>
-                            }
-                            @for (type of preferredRoomTypes(); track type) {
-                                <span><app-icon name="bed" />{{ i18n.t('roomType.' + type) }}</span>
-                            }
-                        </div>
-                        <p>{{ i18n.t('enquiry.selection.hint') }}</p>
-                    </div>
-                }
-            </div>
+        <label>
+          {{ i18n.t('enquiry.occupants') }} <span>{{ i18n.t('enquiry.required') }}</span>
+          <input
+            name="occupants"
+            type="number"
+            min="1"
+            step="1"
+            required
+            inputmode="numeric"
+            [placeholder]="i18n.t('enquiry.occupants.placeholder')"
+          />
+        </label>
+      </div>
 
-            <p>
-                {{ i18n.t('enquiry.desc') }}
-            </p>
+      <label>
+        <app-icon class="field-icon" name="wallet" /> {{ i18n.t('enquiry.budget') }}
+        <span>{{ i18n.t('enquiry.required') }}</span>
+        <input
+          name="monthlyBudget"
+          type="number"
+          min="1"
+          step="1"
+          required
+          inputmode="numeric"
+          [placeholder]="i18n.t('enquiry.budget.placeholder')"
+        />
+      </label>
 
-            <p class="enquiry-note">
-                {{ i18n.t('enquiry.privacy') }}
-            </p>
+      <fieldset>
+        <legend>
+          {{ i18n.t('enquiry.roomTypes') }} <span>{{ i18n.t('enquiry.roomTypes.hint') }}</span>
+        </legend>
+
+        <div class="room-choices">
+          @for (type of roomTypes; track type) {
+          <label>
+            <input
+              type="checkbox"
+              name="roomTypes"
+              [value]="type"
+              [checked]="preferredRoomTypes().includes(type)"
+              (change)="toggleRoomType(type, $event)"
+            />
+            {{ i18n.t('roomType.' + type) }}
+          </label>
+          }
         </div>
+      </fieldset>
 
-        <form
-            #enquiryForm
-            (submit)="prepareEnquiry($event, enquiryForm)"
-            (input)="clearMessage()"
-            (change)="clearMessage()"
-            class="enquiry-form"
-        >
-            <div class="form-grid">
-                <label>
-                    <app-icon class="field-icon" name="user" /> {{ i18n.t('enquiry.name') }} <span>{{ i18n.t('enquiry.required') }}</span>
-                    <input
-                            name="tenantName"
-                            autocomplete="name"
-                            required
-                            maxlength="80"
-                            [placeholder]="i18n.t('enquiry.name.placeholder')"
-                    >
-                </label>
+      <div class="form-grid">
+        <label>
+          <app-icon class="field-icon" name="pin" /> {{ i18n.t('enquiry.location') }}
+          <span>{{ i18n.t('enquiry.required') }}</span>
 
-                <label>
-                    {{ i18n.t('enquiry.occupants') }} <span>{{ i18n.t('enquiry.required') }}</span>
-                    <input
-                            name="occupants"
-                            type="number"
-                            min="1"
-                            step="1"
-                            required
-                            inputmode="numeric"
-                            [placeholder]="i18n.t('enquiry.occupants.placeholder')"
-                    >
-                </label>
-            </div>
-
-            <label>
-                <app-icon class="field-icon" name="wallet" /> {{ i18n.t('enquiry.budget') }} <span>{{ i18n.t('enquiry.required') }}</span>
-                <input
-                        name="monthlyBudget"
-                        type="number"
-                        min="1"
-                        step="1"
-                        required
-                        inputmode="numeric"
-                        [placeholder]="i18n.t('enquiry.budget.placeholder')"
-                >
-            </label>
-
-            <fieldset>
-                <legend>
-                    {{ i18n.t('enquiry.roomTypes') }} <span>{{ i18n.t('enquiry.roomTypes.hint') }}</span>
-                </legend>
-
-                <div class="room-choices">
-                    @for (type of roomTypes; track type) {
-                        <label>
-                            <input
-                                    type="checkbox"
-                                    name="roomTypes"
-                                    [value]="type"
-                                    [checked]="preferredRoomTypes().includes(type)"
-                                    (change)="toggleRoomType(type, $event)"
-                            >
-                            {{ i18n.t('roomType.' + type) }}
-                        </label>
-                    }
-                </div>
-            </fieldset>
-
-            <div class="form-grid">
-                <label>
-                    <app-icon class="field-icon" name="pin" /> {{ i18n.t('enquiry.location') }} <span>{{ i18n.t('enquiry.required') }}</span>
-
-                    <select
-                            name="location"
-                            required
-                            [value]="preferredLocation()"
-                            (change)="preferredLocation.set($any($event.target).value)"
-                    >
-                        <option value="" disabled>{{ i18n.t('enquiry.location.placeholder') }}</option>
-                        @for (location of locations; track location.name) {
-                            <option [value]="location.name">{{ location.name }}</option>
-                        }
-                        <option value="Open to suggestions">{{ i18n.t('enquiry.location.open') }}</option>
-                    </select>
-                </label>
-
-                <label>
-                    <app-icon class="field-icon" name="calendar" /> {{ i18n.t('enquiry.moveIn') }} <span>{{ i18n.t('enquiry.required') }}</span>
-                    <input
-                            #moveInDateInput
-                            name="moveInDate"
-                            type="date"
-                            required
-                            [min]="todayDate"
-                            (focus)="moveInDateInput.min = todayDate"
-                            (change)="validateMoveInDate(moveInDateInput)"
-                            [attr.aria-invalid]="invalidMoveInDate() ? 'true' : null"
-                            [attr.aria-describedby]="invalidMoveInDate() ? 'move-in-date-error' : null"
-                            class="date-input"
-                    >
-                    @if (invalidMoveInDate()) {
-                        <p id="move-in-date-error" class="form-error" role="alert">{{ i18n.t('error.moveInPast') }}</p>
-                    }
-                </label>
-            </div>
-
-            <div class="form-grid">
-                <label>
-                    {{ i18n.t('enquiry.carPark') }} <span>{{ i18n.t('enquiry.required') }}</span>
-
-                    <select name="carPark" required>
-                        <option value="" disabled selected>{{ i18n.t('enquiry.option.placeholder') }}</option>
-                        <option value="Yes">{{ i18n.t('enquiry.yes') }}</option>
-                        <option value="No">{{ i18n.t('enquiry.no') }}</option>
-                        <option value="Not sure yet">{{ i18n.t('enquiry.notSure') }}</option>
-                    </select>
-                </label>
-
-                <label>
-                    {{ i18n.t('enquiry.motorcycle') }} <span>{{ i18n.t('enquiry.required') }}</span>
-
-                    <select name="motorcycle" required>
-                        <option value="" disabled selected>{{ i18n.t('enquiry.option.placeholder') }}</option>
-                        <option value="Yes">{{ i18n.t('enquiry.yes') }}</option>
-                        <option value="No">{{ i18n.t('enquiry.no') }}</option>
-                    </select>
-                </label>
-            </div>
-
-            <fieldset>
-                <legend>
-                    {{ i18n.t('enquiry.ethnicity') }} <span>{{ i18n.t('enquiry.required') }}</span>
-                </legend>
-
-                <div class="room-choices">
-                    @for (option of ethnicityOptions; track option) {
-                        <label>
-                            <input
-                                    type="radio"
-                                    name="ethnicity"
-                                    [value]="option"
-                                    required
-                                    (change)="selectedEthnicity.set(option)"
-                            >
-                            {{ i18n.t('ethnicity.' + option) }}
-                        </label>
-                    }
-                </div>
-            </fieldset>
-
-            @if (selectedEthnicity() === 'Others') {
-                <label>
-                    {{ i18n.t('enquiry.ethnicity.specify') }} <span>{{ i18n.t('enquiry.required') }}</span>
-
-                    <input
-                            name="otherEthnicity"
-                            required
-                            maxlength="80"
-                            [placeholder]="i18n.t('enquiry.ethnicity.placeholder')"
-                    >
-                </label>
+          <select
+            name="location"
+            required
+            [value]="preferredLocation()"
+            (change)="preferredLocation.set($any($event.target).value)"
+          >
+            <option value="" disabled>{{ i18n.t('enquiry.location.placeholder') }}</option>
+            @for (location of locations; track location.name) {
+            <option [value]="location.name">{{ location.name }}</option>
             }
+            <option value="Open to suggestions">{{ i18n.t('enquiry.location.open') }}</option>
+          </select>
+        </label>
 
-            @if (formError()) {
-                <p class="form-error" role="alert">
-                    {{ formError() }}
-                </p>
-            }
+        <label>
+          <app-icon class="field-icon" name="calendar" /> {{ i18n.t('enquiry.moveIn') }}
+          <span>{{ i18n.t('enquiry.required') }}</span>
+          <input
+            #moveInDateInput
+            name="moveInDate"
+            type="date"
+            required
+            [min]="todayDate"
+            (focus)="moveInDateInput.min = todayDate"
+            (change)="validateMoveInDate(moveInDateInput)"
+            [attr.aria-invalid]="invalidMoveInDate() ? 'true' : null"
+            [attr.aria-describedby]="invalidMoveInDate() ? 'move-in-date-error' : null"
+            class="date-input"
+          />
+          @if (invalidMoveInDate()) {
+          <p id="move-in-date-error" class="form-error" role="alert">
+            {{ i18n.t('error.moveInPast') }}
+          </p>
+          }
+        </label>
+      </div>
 
-            <button class="button" type="submit">
-                <app-icon name="whatsapp" /> {{ i18n.t('enquiry.submit') }} <span><app-icon name="arrowUpRight" /></span>
-            </button>
+      <div class="form-grid">
+        <label>
+          {{ i18n.t('enquiry.carPark') }} <span>{{ i18n.t('enquiry.required') }}</span>
 
-            <p class="enquiry-note">{{ i18n.t('enquiry.submitNote') }}</p>
-        </form>
-    </section>
+          <select name="carPark" required>
+            <option value="" disabled selected>{{ i18n.t('enquiry.option.placeholder') }}</option>
+            <option value="Yes">{{ i18n.t('enquiry.yes') }}</option>
+            <option value="No">{{ i18n.t('enquiry.no') }}</option>
+            <option value="Not sure yet">{{ i18n.t('enquiry.notSure') }}</option>
+          </select>
+        </label>
+
+        <label>
+          {{ i18n.t('enquiry.motorcycle') }} <span>{{ i18n.t('enquiry.required') }}</span>
+
+          <select name="motorcycle" required>
+            <option value="" disabled selected>{{ i18n.t('enquiry.option.placeholder') }}</option>
+            <option value="Yes">{{ i18n.t('enquiry.yes') }}</option>
+            <option value="No">{{ i18n.t('enquiry.no') }}</option>
+          </select>
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>
+          {{ i18n.t('enquiry.ethnicity') }} <span>{{ i18n.t('enquiry.required') }}</span>
+        </legend>
+
+        <div class="room-choices">
+          @for (option of ethnicityOptions; track option) {
+          <label>
+            <input
+              type="radio"
+              name="ethnicity"
+              [value]="option"
+              required
+              (change)="selectedEthnicity.set(option)"
+            />
+            {{ i18n.t('ethnicity.' + option) }}
+          </label>
+          }
+        </div>
+      </fieldset>
+
+      @if (selectedEthnicity() === 'Others') {
+      <label>
+        {{ i18n.t('enquiry.ethnicity.specify') }} <span>{{ i18n.t('enquiry.required') }}</span>
+
+        <input
+          name="otherEthnicity"
+          required
+          maxlength="80"
+          [placeholder]="i18n.t('enquiry.ethnicity.placeholder')"
+        />
+      </label>
+      } @if (formError()) {
+      <p class="form-error" role="alert">{{ formError() }}</p>
+      }
+
+      <button class="button" type="submit">
+        <app-icon name="whatsapp" /> {{ i18n.t('enquiry.submit') }}
+        <span><app-icon name="arrowUpRight" /></span>
+      </button>
+
+      <p class="enquiry-note">{{ i18n.t('enquiry.submitNote') }}</p>
+    </form>
+  </section>
 </main>
 
 <footer class="section">
-    <div class="footer-top">
-        <a class="brand" href="#">
-            Nest <span>&</span> Nook
-            <small>{{ i18n.t('footer.tagline') }}</small>
-        </a>
+  <div class="footer-top">
+    <a class="brand" href="#">
+      Nest <span>&</span> Nook
+      <small>{{ i18n.t('footer.tagline') }}</small>
+    </a>
 
-        <p>
-            {{ i18n.t('footer.desc') }}<br>
-            {{ i18n.t('footer.location') }}
-        </p>
+    <p>
+      {{ i18n.t('footer.desc') }}<br />
+      {{ i18n.t('footer.location') }}
+    </p>
 
-        <a [href]="'mailto:' + contact.email">
-            {{ contact.email }} <app-icon name="arrowUpRight" />
-        </a>
-    </div>
+    <a [href]="'mailto:' + contact.email"> {{ contact.email }} <app-icon name="arrowUpRight" /> </a>
+  </div>
 
-    <div class="footer-bottom">
-    <span>
-      © {{ year }} Nest & Nook. {{ i18n.t('footer.rights') }}
-    </span>
+  <div class="footer-bottom">
+    <span> © {{ year }} Nest & Nook. {{ i18n.t('footer.rights') }} </span>
 
-        <a href="#">{{ i18n.t('footer.backToTop') }}</a>
-    </div>
+    <a href="#">{{ i18n.t('footer.backToTop') }}</a>
+  </div>
 </footer>

@@ -4,11 +4,10 @@
 type Dict = Record<string, string>;
 
 export const TRANSLATIONS: Record<string, Dict> = {
-
   // ─── English ──────────────────────────────────────────────────────────────
   en: {
     // Skip link
-    'skip': 'Skip to content',
+    skip: 'Skip to content',
 
     // Navigation
     'nav.close': 'Close ✕',
@@ -24,7 +23,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'hero.h1.1': 'A place to stay.',
     'hero.h1.2': 'A nook to',
     'hero.h1.3': 'call your own.',
-    'hero.desc': 'Looking for a CIQ room rental? Explore rooms at R&F Princess Cove, Trellis Residences and around Johor Bahru, thoughtfully managed by Nest & Nook.',
+    'hero.desc':
+      'Looking for a CIQ room rental? Explore rooms at R&F Princess Cove, Trellis Residences and around Johor Bahru, thoughtfully managed by Nest & Nook.',
     'hero.cta': 'Find a room on WhatsApp',
     'hero.explore': 'Explore our spaces',
     'hero.caption.1': 'A LITTLE ROOM. A FRESH START.',
@@ -42,8 +42,10 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'about.eyebrow': "HELLO, WE'RE NEST & NOOK",
     'about.h2.1': 'Johor Bahru room rental,',
     'about.h2.2': 'with a personal touch.',
-    'about.p1': "We're a property management company in Johor Bahru, connecting people with rooms at R&F Princess Cove, Trellis Residences and other locations around the CIQ area.",
-    'about.p2': "Whether you're settling into Johor Bahru or looking for a JB room rental near the border, start with a conversation. Tell us what you're looking for, and we'll help you explore our room options.",
+    'about.p1':
+      "We're a property management company in Johor Bahru, connecting people with rooms at R&F Princess Cove, Trellis Residences and other locations around the CIQ area.",
+    'about.p2':
+      "Whether you're settling into Johor Bahru or looking for a JB room rental near the border, start with a conversation. Tell us what you're looking for, and we'll help you explore our room options.",
     'about.cta': "Let's find your nook",
 
     // Locations
@@ -59,7 +61,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'rooms.subtitle.1': 'A glimpse of our spaces.',
     'rooms.subtitle.2': 'Your next nook could be among them.',
     'rooms.perMonth': '/ month',
-    'rooms.disclaimer': 'Examples from our room collection, with indicative prices. Ask us about current availability and final rental terms. Room photos are for reference, not individual bookings.',
+    'rooms.disclaimer':
+      'Examples from our room collection, with indicative prices. Ask us about current availability and final rental terms. Room photos are for reference, not individual bookings.',
     'rooms.showLess': 'Show fewer photos',
     'rooms.showAll': 'View all photos',
 
@@ -71,21 +74,26 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'package.utilities.title': 'Utilities included',
     'package.utilities.desc': 'Water, electricity and Wi-Fi are included in your rent.',
     'package.ac.title': 'Air-conditioning bonus',
-    'package.ac.desc': 'For rooms with A/C: 2 hours free daily. Additional usage is charged at RM0.70/kWh and monitored via a smart meter. (Top-up can be done via mobile-application)',
+    'package.ac.desc':
+      'For rooms with A/C: 2 hours free daily. Additional usage is charged at RM0.70/kWh and monitored via a smart meter. (Top-up can be done via mobile-application)',
     'package.cleaning.title': 'Weekly cleaning',
     'package.cleaning.desc': 'Common areas are cleaned every week.',
     'package.cctv.title': 'CCTV monitoring',
     'package.cctv.desc': 'CCTV monitoring is in place for safety.',
     'package.appliances.title': 'Everyday appliances',
-    'package.appliances.desc': 'Oven, hot & cold water dispenser, washing machine, dryer and electric stove.',
+    'package.appliances.desc':
+      'Oven, hot & cold water dispenser, washing machine, dryer and electric stove.',
     'package.deposit.title': 'Low deposit, no agent fee',
-    'package.deposit.desc': "Rent directly with us with no agent fee and a deposit from as low as one month's rent.",
-    'package.note': '*Electricity is included except for additional air-conditioning usage beyond 2 hours per day.',
+    'package.deposit.desc':
+      "Rent directly with us with no agent fee and a deposit from as low as one month's rent.",
+    'package.note':
+      '*Electricity is included except for additional air-conditioning usage beyond 2 hours per day.',
 
     // Reviews
     'reviews.eyebrow': 'CUSTOMER FEEDBACK',
     'reviews.h2': 'A few words from our customers.',
-    'reviews.desc': 'Choosing a room is a personal decision. Read what customers have shared about CIQ Room Rental by Nest&Nook on Google Maps.',
+    'reviews.desc':
+      'Choosing a room is a personal decision. Read what customers have shared about CIQ Room Rental by Nest&Nook on Google Maps.',
     'reviews.source': 'Google customer rating',
     'reviews.business': 'CIQ Room Rental by Nest&Nook',
     'reviews.date': 'Rating checked 24 September 2026',
@@ -108,8 +116,10 @@ export const TRANSLATIONS: Record<string, Dict> = {
     // Enquiry
     'enquiry.eyebrow': "LET'S GET TO KNOW YOUR NEEDS",
     'enquiry.h2': 'Your room enquiry.',
-    'enquiry.desc': 'Share a few details so we can suggest suitable rooms. Continue to WhatsApp with your enquiry already filled in.',
-    'enquiry.privacy': 'Your details stay on this page until you choose to continue to WhatsApp. Nothing is saved by this website.',
+    'enquiry.desc':
+      'Share a few details so we can suggest suitable rooms. Continue to WhatsApp with your enquiry already filled in.',
+    'enquiry.privacy':
+      'Your details stay on this page until you choose to continue to WhatsApp. Nothing is saved by this website.',
     'enquiry.name': 'Your name',
     'enquiry.name.placeholder': 'Your name',
     'enquiry.required': '(required)',
@@ -119,7 +129,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'enquiry.budget.placeholder': 'e.g. 1500',
     'error.budget': 'Please enter your monthly budget as a whole amount greater than RM 0.',
     'enquiry.selection.title': 'Your selection is filled in below',
-    'enquiry.selection.hint': 'Add your details to enquire on WhatsApp. You can change your preferences below.',
+    'enquiry.selection.hint':
+      'Add your details to enquire on WhatsApp. You can change your preferences below.',
     'enquiry.roomTypes': 'Preferred room types',
     'enquiry.roomTypes.hint': '(choose at least one)',
     'enquiry.location': 'Preferred location',
@@ -136,7 +147,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'enquiry.ethnicity.specify': 'Please specify your race / ethnicity',
     'enquiry.ethnicity.placeholder': 'Your race / ethnicity',
     'enquiry.submit': 'Continue to WhatsApp',
-    'enquiry.submitNote': "WhatsApp will open with your message filled in. Press Send there when you're ready.",
+    'enquiry.submitNote':
+      "WhatsApp will open with your message filled in. Press Send there when you're ready.",
 
     // Room types
     'roomType.Single Room': 'Single Room',
@@ -174,10 +186,9 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'aria.rating': 'Rated 4.8 out of 5 on Google. Read our Google reviews.',
   },
 
-
   // ─── 中文 (简体) ──────────────────────────────────────────────────────────
   zh: {
-    'skip': '跳至内容',
+    skip: '跳至内容',
 
     'nav.close': '关闭 ✕',
     'nav.menu': '菜单 ☰',
@@ -191,7 +202,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'hero.h1.1': '一个栖居之所。',
     'hero.h1.2': '一个属于',
     'hero.h1.3': '你自己的角落。',
-    'hero.desc': '正在寻找靠近关卡的房间出租？探索位于 R&F Princess Cove、Trellis Residences 以及新山周边的房间，由 Nest & Nook 用心管理。',
+    'hero.desc':
+      '正在寻找靠近关卡的房间出租？探索位于 R&F Princess Cove、Trellis Residences 以及新山周边的房间，由 Nest & Nook 用心管理。',
     'hero.cta': '通过 WhatsApp 找房',
     'hero.explore': '探索我们的空间',
     'hero.caption.1': '小小房间，全新开始。',
@@ -207,8 +219,10 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'about.eyebrow': '你好，我们是 NEST & NOOK',
     'about.h2.1': '新山房间出租，',
     'about.h2.2': '贴心服务。',
-    'about.p1': '我们是一家位于新山的物业管理公司，为租客匹配 R&F Princess Cove、Trellis Residences 及 CIQ 周边其他地点的房间。',
-    'about.p2': '无论你是刚到新山定居，还是在寻找靠近关卡的房间出租，都可以先和我们聊聊。告诉我们你的需求，我们将帮你找到合适的房间。',
+    'about.p1':
+      '我们是一家位于新山的物业管理公司，为租客匹配 R&F Princess Cove、Trellis Residences 及 CIQ 周边其他地点的房间。',
+    'about.p2':
+      '无论你是刚到新山定居，还是在寻找靠近关卡的房间出租，都可以先和我们聊聊。告诉我们你的需求，我们将帮你找到合适的房间。',
     'about.cta': '找到你的小窝',
 
     'locations.eyebrow': '优越位置，便利生活',
@@ -222,7 +236,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'rooms.subtitle.1': '一窥我们的空间。',
     'rooms.subtitle.2': '你的下一个小窝可能就在其中。',
     'rooms.perMonth': '/ 月',
-    'rooms.disclaimer': '以上为房间示例及参考价格。如需了解当前空房及最终租赁条款，请联系我们。房间照片仅供参考，非单独预订。',
+    'rooms.disclaimer':
+      '以上为房间示例及参考价格。如需了解当前空房及最终租赁条款，请联系我们。房间照片仅供参考，非单独预订。',
     'rooms.showLess': '显示更少照片',
     'rooms.showAll': '查看所有照片',
 
@@ -233,7 +248,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'package.utilities.title': '水电全包',
     'package.utilities.desc': '水费、电费和 Wi-Fi 已包含在房租内。',
     'package.ac.title': '空调福利',
-    'package.ac.desc': '配有空调的房间：每日免费使用2小时。超出部分按 RM0.70/kWh 收费，通过智能电表监控。（可通过手机应用充值）',
+    'package.ac.desc':
+      '配有空调的房间：每日免费使用2小时。超出部分按 RM0.70/kWh 收费，通过智能电表监控。（可通过手机应用充值）',
     'package.cleaning.title': '每周清洁',
     'package.cleaning.desc': '公共区域每周清洁一次。',
     'package.cctv.title': '闭路电视监控',
@@ -246,7 +262,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
 
     'reviews.eyebrow': '客户反馈',
     'reviews.h2': '来自客户的评价。',
-    'reviews.desc': '选择房间是个人决定。阅读客户在 Google Maps 上对 CIQ Room Rental by Nest&Nook 的评价。',
+    'reviews.desc':
+      '选择房间是个人决定。阅读客户在 Google Maps 上对 CIQ Room Rental by Nest&Nook 的评价。',
     'reviews.source': 'Google 客户评分',
     'reviews.business': 'CIQ Room Rental by Nest&Nook',
     'reviews.date': '评分更新于 2026 年 9 月 24 日',
@@ -328,10 +345,9 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'aria.rating': '在 Google 上获评 4.8 分（满分 5 分）。阅读我们的 Google 评价。',
   },
 
-
   // ─── Bahasa Melayu ────────────────────────────────────────────────────────
   ms: {
-    'skip': 'Langkau ke kandungan',
+    skip: 'Langkau ke kandungan',
 
     'nav.close': 'Tutup ✕',
     'nav.menu': 'Menu ☰',
@@ -345,7 +361,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'hero.h1.1': 'Tempat untuk tinggal.',
     'hero.h1.2': 'Sudut yang boleh',
     'hero.h1.3': 'anda panggil milik sendiri.',
-    'hero.desc': 'Mencari sewa bilik berhampiran CIQ? Terokai bilik di R&F Princess Cove, Trellis Residences dan sekitar Johor Bahru, diuruskan oleh Nest & Nook.',
+    'hero.desc':
+      'Mencari sewa bilik berhampiran CIQ? Terokai bilik di R&F Princess Cove, Trellis Residences dan sekitar Johor Bahru, diuruskan oleh Nest & Nook.',
     'hero.cta': 'Cari bilik di WhatsApp',
     'hero.explore': 'Terokai ruang kami',
     'hero.caption.1': 'BILIK KECIL. PERMULAAN BARU.',
@@ -361,8 +378,10 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'about.eyebrow': 'HELLO, KAMI NEST & NOOK',
     'about.h2.1': 'Sewa bilik Johor Bahru,',
     'about.h2.2': 'dengan sentuhan peribadi.',
-    'about.p1': 'Kami adalah syarikat pengurusan hartanah di Johor Bahru, menghubungkan orang ramai dengan bilik di R&F Princess Cove, Trellis Residences dan lokasi lain di sekitar kawasan CIQ.',
-    'about.p2': 'Sama ada anda baru menetap di Johor Bahru atau sedang mencari sewa bilik berhampiran sempadan, mulakan dengan perbualan. Beritahu kami apa yang anda cari, dan kami akan membantu anda menerokai pilihan bilik kami.',
+    'about.p1':
+      'Kami adalah syarikat pengurusan hartanah di Johor Bahru, menghubungkan orang ramai dengan bilik di R&F Princess Cove, Trellis Residences dan lokasi lain di sekitar kawasan CIQ.',
+    'about.p2':
+      'Sama ada anda baru menetap di Johor Bahru atau sedang mencari sewa bilik berhampiran sempadan, mulakan dengan perbualan. Beritahu kami apa yang anda cari, dan kami akan membantu anda menerokai pilihan bilik kami.',
     'about.cta': 'Cari sudut anda',
 
     'locations.eyebrow': 'LOKASI STRATEGIK UNTUK KEHIDUPAN HARIAN',
@@ -376,7 +395,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'rooms.subtitle.1': 'Sekilas pandang ruang kami.',
     'rooms.subtitle.2': 'Sudut seterusnya anda mungkin ada di sini.',
     'rooms.perMonth': '/ bulan',
-    'rooms.disclaimer': 'Contoh dari koleksi bilik kami, dengan harga indikatif. Tanya kami tentang ketersediaan semasa dan terma sewaan akhir. Foto bilik untuk rujukan, bukan tempahan individu.',
+    'rooms.disclaimer':
+      'Contoh dari koleksi bilik kami, dengan harga indikatif. Tanya kami tentang ketersediaan semasa dan terma sewaan akhir. Foto bilik untuk rujukan, bukan tempahan individu.',
     'rooms.showLess': 'Tunjukkan lebih sedikit',
     'rooms.showAll': 'Lihat semua foto',
 
@@ -387,20 +407,25 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'package.utilities.title': 'Utiliti termasuk',
     'package.utilities.desc': 'Air, elektrik dan Wi-Fi termasuk dalam sewa anda.',
     'package.ac.title': 'Bonus penyaman udara',
-    'package.ac.desc': 'Untuk bilik dengan A/C: 2 jam percuma setiap hari. Penggunaan tambahan dikenakan caj RM0.70/kWh dan dipantau melalui meter pintar. (Tambah nilai boleh dilakukan melalui aplikasi mudah alih)',
+    'package.ac.desc':
+      'Untuk bilik dengan A/C: 2 jam percuma setiap hari. Penggunaan tambahan dikenakan caj RM0.70/kWh dan dipantau melalui meter pintar. (Tambah nilai boleh dilakukan melalui aplikasi mudah alih)',
     'package.cleaning.title': 'Pembersihan mingguan',
     'package.cleaning.desc': 'Kawasan bersama dibersihkan setiap minggu.',
     'package.cctv.title': 'Pemantauan CCTV',
     'package.cctv.desc': 'Pemantauan CCTV disediakan untuk keselamatan.',
     'package.appliances.title': 'Peralatan harian',
-    'package.appliances.desc': 'Ketuhar, dispenser air panas & sejuk, mesin basuh, pengering dan dapur elektrik.',
+    'package.appliances.desc':
+      'Ketuhar, dispenser air panas & sejuk, mesin basuh, pengering dan dapur elektrik.',
     'package.deposit.title': 'Deposit rendah, tiada yuran ejen',
-    'package.deposit.desc': 'Sewa terus dengan kami tanpa yuran ejen, dengan deposit serendah sewa sebulan.',
-    'package.note': '*Elektrik termasuk kecuali penggunaan penyaman udara tambahan melebihi 2 jam sehari.',
+    'package.deposit.desc':
+      'Sewa terus dengan kami tanpa yuran ejen, dengan deposit serendah sewa sebulan.',
+    'package.note':
+      '*Elektrik termasuk kecuali penggunaan penyaman udara tambahan melebihi 2 jam sehari.',
 
     'reviews.eyebrow': 'MAKLUM BALAS PELANGGAN',
     'reviews.h2': 'Beberapa kata daripada pelanggan kami.',
-    'reviews.desc': 'Memilih bilik adalah keputusan peribadi. Baca apa yang pelanggan kongsikan tentang CIQ Room Rental by Nest&Nook di Google Maps.',
+    'reviews.desc':
+      'Memilih bilik adalah keputusan peribadi. Baca apa yang pelanggan kongsikan tentang CIQ Room Rental by Nest&Nook di Google Maps.',
     'reviews.source': 'Penilaian pelanggan Google',
     'reviews.business': 'CIQ Room Rental by Nest&Nook',
     'reviews.date': 'Penilaian disemak 24 September 2026',
@@ -421,8 +446,10 @@ export const TRANSLATIONS: Record<string, Dict> = {
 
     'enquiry.eyebrow': 'MARI KENALI KEPERLUAN ANDA',
     'enquiry.h2': 'Pertanyaan bilik anda.',
-    'enquiry.desc': 'Kongsikan beberapa butiran supaya kami boleh cadangkan bilik yang sesuai. Teruskan ke WhatsApp dengan pertanyaan anda yang telah diisi.',
-    'enquiry.privacy': 'Butiran anda kekal di halaman ini sehingga anda memilih untuk meneruskan ke WhatsApp. Tiada apa yang disimpan oleh laman web ini.',
+    'enquiry.desc':
+      'Kongsikan beberapa butiran supaya kami boleh cadangkan bilik yang sesuai. Teruskan ke WhatsApp dengan pertanyaan anda yang telah diisi.',
+    'enquiry.privacy':
+      'Butiran anda kekal di halaman ini sehingga anda memilih untuk meneruskan ke WhatsApp. Tiada apa yang disimpan oleh laman web ini.',
     'enquiry.name': 'Nama anda',
     'enquiry.name.placeholder': 'Nama anda',
     'enquiry.required': '(wajib)',
@@ -432,7 +459,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'enquiry.budget.placeholder': 'cth. 1500',
     'error.budget': 'Sila masukkan bajet bulanan dalam jumlah bulat yang melebihi RM 0.',
     'enquiry.selection.title': 'Pilihan anda telah diisi di bawah',
-    'enquiry.selection.hint': 'Lengkapkan butiran anda untuk bertanya melalui WhatsApp. Anda boleh mengubah pilihan di bawah.',
+    'enquiry.selection.hint':
+      'Lengkapkan butiran anda untuk bertanya melalui WhatsApp. Anda boleh mengubah pilihan di bawah.',
     'enquiry.roomTypes': 'Jenis bilik pilihan',
     'enquiry.roomTypes.hint': '(pilih sekurang-kurangnya satu)',
     'enquiry.location': 'Lokasi pilihan',
@@ -449,7 +477,8 @@ export const TRANSLATIONS: Record<string, Dict> = {
     'enquiry.ethnicity.specify': 'Sila nyatakan bangsa / etnik anda',
     'enquiry.ethnicity.placeholder': 'Bangsa / etnik anda',
     'enquiry.submit': 'Teruskan ke WhatsApp',
-    'enquiry.submitNote': 'WhatsApp akan dibuka dengan mesej anda yang telah diisi. Tekan Hantar apabila anda bersedia.',
+    'enquiry.submitNote':
+      'WhatsApp akan dibuka dengan mesej anda yang telah diisi. Tekan Hantar apabila anda bersedia.',
 
     'roomType.Single Room': 'Bilik Tunggal',
     'roomType.Common Room': 'Bilik Biasa',
@@ -480,5 +509,5 @@ export const TRANSLATIONS: Record<string, Dict> = {
 
     'aria.brand': 'Laman utama Nest and Nook',
     'aria.rating': 'Dinilai 4.8 daripada 5 di Google. Baca ulasan Google kami.',
-  }
+  },
 };
