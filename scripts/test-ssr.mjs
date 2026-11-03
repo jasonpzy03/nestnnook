@@ -8,6 +8,8 @@ const seed = JSON.parse(
   await readFile(new URL('../apps/api/seed/catalog.json', import.meta.url), 'utf8'),
 );
 let catalog = { rooms: seed.rooms, locations: seed.locations };
+catalog.rooms[0].locationId = catalog.locations[0].id;
+catalog.rooms[0].photos.push({ url: '/assets/R03.jpg', alt: 'Second photo of the same room' });
 let unavailable = false;
 let requests = 0;
 const api = createServer((req, res) => {
@@ -35,6 +37,13 @@ try {
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /ngh=/);
   assert.match(html, /published-catalog/);
+  assert.match(html, /Rooms to call home\./);
+  assert.equal(
+    (html.match(/class="listing-card"/g) || []).length,
+    catalog.rooms.filter((room) => room.type !== 'Common Area' && room.photos.length).length,
+    'One listing per room, not per photo; shared spaces are not rentable listings',
+  );
+  assert.match(html, /Next photo/);
   assert.ok(!html.includes('UPSTASH_REDIS_REST_TOKEN'));
   catalog.rooms[0].monthlyRent = 2345;
   catalog.rooms[0].code = 'SSR-UPDATED';

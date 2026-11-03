@@ -16,7 +16,8 @@
     "test:api": "npm --prefix apps/api test",
     "serve:ssr": "node --env-file-if-exists=.env dist/server/server.mjs",
     "build:vercel": "node scripts/build-vercel.mjs",
-    "test:ssr": "node scripts/test-ssr.mjs"
+    "test:ssr": "node scripts/test-ssr.mjs",
+    "test:listings": "node scripts/test-room-listing.mjs"
   },
   "dependencies": {
     "@angular/common": "^21.2.23",

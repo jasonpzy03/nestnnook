@@ -36,7 +36,9 @@ Vercel uses `npm run build:vercel` to package static assets and a Node.js SSR fu
 - `src/styles.css`: responsive navy and gold theme.
 - `assets/`: original supplied photographs and business card, preserved as provided.
 
-Photos illustrate room types, not bookable inventory. Monthly prices and amenities follow the supplied `assets/roominfo.txt`; individual building assignments and availability are not inferred. R02 has two views; Common Area has no rental price. Fonts load from Google Fonts with local serif/sans-serif fallbacks.
+Published rooms now appear as individual listings near the top of the homepage. Visitors can search by room reference, location, features or description; combine location, room-type and monthly-budget filters; and sort by price or recommendation. Each room has one card with controls for its photos. Common Area entries are excluded from rental listings. Rooms without an assigned location show an enquiry prompt rather than an inferred building. Set locations in the admin and publish room changes to make them filterable.
+
+Location cards lead to the filtered listing. Enquiring about a room prefills the room type and location and includes its reference and listed monthly rent in WhatsApp. The full unfiltered listing is server rendered for SEO, and filters run locally without another API request. Published rooms should be unpublished when no longer available. Existing seed records with duplicate views remain separate records until consolidated in the admin; no business data is merged automatically.
 
 All WhatsApp entry points lead to the enquiry form. Visitors provide a name, one or more preferred room types, a positive whole number of occupants and a location. Location cards prefill the location. The form validates these details and opens WhatsApp directly with an encoded enquiry message. WhatsApp still requires the visitor to press Send. Telegram is temporarily removed from the site.
 

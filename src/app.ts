@@ -1,4 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { filterRooms, ListedRoom } from './room-listing';
 import { CONTACT } from './site.config';
 import { PublicCatalogService } from './public-catalog.service';
 import { IconComponent } from './icon';
@@ -9,7 +12,7 @@ import { LangSwitcherComponent } from './lang-switcher';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [IconComponent, LangSwitcherComponent],
+  imports: [IconComponent, LangSwitcherComponent, DecimalPipe, FormsModule],
   templateUrl: './app.html',
 })
 export class AppComponent {
@@ -18,11 +21,53 @@ export class AppComponent {
   readonly year = new Date().getFullYear();
   readonly menuOpen = signal(false);
   private readonly catalog = inject(PublicCatalogService);
-  readonly photos = this.catalog.photos;
-  readonly featuredPhotos = this.photos.filter((photo) => photo.featured);
+  readonly rooms = this.catalog.rooms;
   readonly locations = this.catalog.locations;
   readonly reviews = GOOGLE_REVIEWS;
-  readonly showAll = signal(false);
+  readonly searchQuery = signal('');
+  readonly locationFilter = signal('');
+  readonly typeFilter = signal('');
+  readonly maxRent = signal('');
+  readonly sortOrder = signal('recommended');
+  readonly listingTypes = [...new Set(this.rooms.map((room) => room.type))];
+  readonly filteredRooms = computed(() =>
+    filterRooms(this.rooms, {
+      query: this.searchQuery(),
+      location: this.locationFilter(),
+      type: this.typeFilter(),
+      maxRent: this.maxRent(),
+      sort: this.sortOrder(),
+    }),
+  );
+  readonly activeFilters = computed(
+    () => !!(this.searchQuery() || this.locationFilter() || this.typeFilter() || this.maxRent()),
+  );
+  readonly photoIndexes = signal<Record<string, number>>({});
+  readonly selectedRoom = signal<ListedRoom | null>(null);
+  resetFilters() {
+    this.searchQuery.set('');
+    this.locationFilter.set('');
+    this.typeFilter.set('');
+    this.maxRent.set('');
+    this.sortOrder.set('recommended');
+  }
+  browseLocation(id: string) {
+    this.resetFilters();
+    this.locationFilter.set(id);
+  }
+  changePhoto(room: ListedRoom, step: number) {
+    this.photoIndexes.update((indexes) => ({
+      ...indexes,
+      [room.id]: ((indexes[room.id] || 0) + step + room.photos.length) % room.photos.length,
+    }));
+  }
+  enquireRoom(room: ListedRoom) {
+    this.selectedRoom.set(room);
+    this.preferredRoomTypes.set([this.roomTypes.includes(room.type) ? room.type : 'Others']);
+    this.preferredLocation.set(room.locationName || 'Open to suggestions');
+    this.showSelectionSummary.set(true);
+    this.clearMessage();
+  }
   readonly preferredLocation = signal('');
   readonly showSelectionSummary = signal(false);
   readonly ethnicityOptions = ['Chinese', 'Indian', 'Malay', 'Others'];
@@ -133,7 +178,11 @@ export class AppComponent {
       );
       return;
     }
-    const message = `Hi Nest & Nook! I would like to enquire about a room rental.\n\nName: ${name}\nPreferred room types: ${types.join(', ')}\nNumber of people: ${occupants}\nMonthly budget: RM ${monthlyBudget.toLocaleString('en-MY')}\nPreferred location: ${location}\nMove-in date: ${moveInDate}\nCar parking needed: ${carPark}\nHave a motorcycle: ${motorcycle}\nRace / ethnicity: ${ethnicity}\n\nCould you share suitable rooms, current prices and availability? Thank you!`;
+    const room = this.selectedRoom();
+    const reference = room
+      ? `\nRoom of interest: ${room.code} (${room.type}${room.locationName ? ' at ' + room.locationName : ''})\nListed monthly rent: RM ${room.monthlyRent.toLocaleString('en-MY')}\n`
+      : '';
+    const message = `Hi Nest & Nook! I would like to enquire about a room rental.\n${reference}\nName: ${name}\nPreferred room types: ${types.join(', ')}\nNumber of people: ${occupants}\nMonthly budget: RM ${monthlyBudget.toLocaleString('en-MY')}\nPreferred location: ${location}\nMove-in date: ${moveInDate}\nCar parking needed: ${carPark}\nHave a motorcycle: ${motorcycle}\nRace / ethnicity: ${ethnicity}\n\nCould you confirm availability and share the next steps? Thank you!`;
     window.location.assign(
       `https://wa.me/${this.contact.whatsappNumber}?text=${encodeURIComponent(message)}`,
     );
