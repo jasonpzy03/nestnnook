@@ -4,6 +4,10 @@ import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { Catalog } from '../catalog/catalog.dto';
 
+// A literal module dependency lets Vercel trace and bundle this JSON file.
+// It also works from dist/storage without relying on the process working directory.
+const seedCatalog: Catalog = require('../../seed/catalog.json');
+
 @Injectable()
 export class CatalogStore {
   readonly driver = process.env.STORAGE_DRIVER || 'local';
@@ -37,7 +41,7 @@ export class CatalogStore {
     }
   }
   private async seed(): Promise<Catalog> {
-    return JSON.parse(await readFile(resolve('seed/catalog.json'), 'utf8'));
+    return structuredClone(seedCatalog);
   }
   async save(next: Catalog, expected: number): Promise<Catalog> {
     if (this.redis) {

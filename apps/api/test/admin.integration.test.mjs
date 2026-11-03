@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
-import { mkdtemp, mkdir, copyFile, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { resolve, join } from 'node:path';
 import { randomBytes, scryptSync } from 'node:crypto';
@@ -18,8 +18,7 @@ test('admin authentication, catalogue lifecycle, optimistic locking and upload v
   await once(reservation, 'listening');
   const port = reservation.address().port;
   await new Promise((resolve) => reservation.close(resolve));
-  await mkdir(join(root, 'seed'));
-  await copyFile('seed/catalog.json', join(root, 'seed/catalog.json'));
+  // No seed file in this working directory: the compiled API must resolve its own dependency.
   const server = spawn(process.execPath, [resolve('dist/main.js')], {
     cwd: root,
     env: {
