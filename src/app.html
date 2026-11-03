@@ -23,7 +23,7 @@
       <a href="#about" (click)="closeMenu()">{{ i18n.t('nav.story') }}</a>
       <a href="#locations" (click)="closeMenu()">{{ i18n.t('nav.locations') }}</a>
       <a href="#rooms" (click)="closeMenu()">{{ i18n.t('nav.rooms') }}</a>
-      <a class="button small" href="#contact" (click)="closeMenu()">
+      <a class="button small" href="#rooms" (click)="closeMenu()">
         {{ i18n.t('nav.cta') }} <span><app-icon name="arrowUpRight" /></span>
       </a>
     </nav>
@@ -49,12 +49,14 @@
       <p class="hero-benefit"><app-icon name="check" />{{ i18n.t('package.summary.2') }}</p>
 
       <div class="actions">
-        <a class="button gold" href="#enquiry">
-          <app-icon name="whatsapp" /> {{ i18n.t('hero.cta') }}
+        <a class="button gold" href="#rooms">
+          <app-icon name="search" /> {{ i18n.t('listing.browse') }}
           <span><app-icon name="arrowUpRight" /></span>
         </a>
 
-        <a class="text-link" href="#rooms"> {{ i18n.t('hero.explore') }} <span>↓</span> </a>
+        <a class="text-link" href="#enquiry"
+          ><app-icon name="whatsapp" /> {{ i18n.t('hero.cta') }}</a
+        >
       </div>
 
       <div class="hero-location">
@@ -95,6 +97,158 @@
     </p>
   </div>
 
+  <section class="room-photos-section listing-section" id="rooms" aria-labelledby="listing-title">
+    <div class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{{ i18n.t('listing.eyebrow') }}</p>
+          <h2 id="listing-title">{{ i18n.t('listing.title') }}</h2>
+        </div>
+        <p>{{ i18n.t('listing.intro') }}</p>
+      </div>
+      <div class="listing-filters" role="search" [attr.aria-label]="i18n.t('listing.search')">
+        <label class="listing-search"
+          ><span>{{ i18n.t('listing.search') }}</span>
+          <div class="search-input">
+            <app-icon name="search" /><input
+              type="search"
+              [ngModel]="searchQuery()"
+              (ngModelChange)="searchQuery.set($event)"
+              [placeholder]="i18n.t('listing.placeholder')"
+            /></div
+        ></label>
+        <label
+          ><span>{{ i18n.t('listing.location') }}</span
+          ><select [ngModel]="locationFilter()" (ngModelChange)="locationFilter.set($event)">
+            <option value="">{{ i18n.t('listing.allLocations') }}</option>
+            @for (location of locations; track location.id) {
+            <option [value]="location.id">{{ location.name }}</option>
+            }
+          </select></label
+        >
+        <label
+          ><span>{{ i18n.t('listing.type') }}</span
+          ><select [ngModel]="typeFilter()" (ngModelChange)="typeFilter.set($event)">
+            <option value="">{{ i18n.t('listing.allTypes') }}</option>
+            @for (type of listingTypes; track type) {
+            <option [value]="type">{{ i18n.t('roomType.' + type) }}</option>
+            }
+          </select></label
+        >
+        <label
+          ><span>{{ i18n.t('listing.budget') }}</span
+          ><select [ngModel]="maxRent()" (ngModelChange)="maxRent.set($event)">
+            <option value="">{{ i18n.t('listing.anyBudget') }}</option>
+            @for (amount of [1000, 1500, 2000, 2500]; track amount) {
+            <option [value]="amount">≤ RM {{ amount | number }}</option>
+            }
+          </select></label
+        >
+      </div>
+      <div class="listing-toolbar">
+        <div class="listing-result" role="status" aria-live="polite">
+          <strong>{{ filteredRooms().length }}</strong> {{ i18n.t(filteredRooms().length === 1 ?
+          'listing.result' : 'listing.results') }} @if (activeFilters()) {<button
+            type="button"
+            class="listing-reset"
+            (click)="resetFilters()"
+          >
+            {{ i18n.t('listing.reset') }}</button
+          >}
+        </div>
+        <label class="listing-sort"
+          ><span>{{ i18n.t('listing.sort') }}</span
+          ><select [ngModel]="sortOrder()" (ngModelChange)="sortOrder.set($event)">
+            <option value="recommended">{{ i18n.t('listing.recommended') }}</option>
+            <option value="price-low">{{ i18n.t('listing.low') }}</option>
+            <option value="price-high">{{ i18n.t('listing.high') }}</option>
+          </select></label
+        >
+      </div>
+      <div class="listing-grid">
+        @for (room of filteredRooms(); track room.id) {
+        <article class="listing-card">
+          <div class="listing-photo">
+            <img
+              [src]="room.photos[photoIndexes()[room.id] || 0].url"
+              [alt]="room.photos[photoIndexes()[room.id] || 0].alt"
+              loading="lazy"
+              width="640"
+              height="480"
+            />
+            @if (room.featured) {<span class="listing-featured"
+              ><app-icon name="sparkle" />{{ i18n.t('listing.featured') }}</span
+            >} @if (room.photos.length > 1) {
+            <div class="listing-photo-controls">
+              <button
+                type="button"
+                (click)="changePhoto(room, -1)"
+                [attr.aria-label]="i18n.t('listing.prev') + ' · ' + room.code"
+              >
+                ‹</button
+              ><span>{{ (photoIndexes()[room.id] || 0) + 1 }} / {{ room.photos.length }}</span
+              ><button
+                type="button"
+                (click)="changePhoto(room, 1)"
+                [attr.aria-label]="i18n.t('listing.next') + ' · ' + room.code"
+              >
+                ›
+              </button>
+            </div>
+            }
+          </div>
+          <div class="listing-body">
+            <div class="listing-meta">
+              <span>{{ room.code }}</span
+              ><span class="listing-price"
+                >RM {{ room.monthlyRent | number:'1.0-0' }}
+                <small>{{ i18n.t('rooms.perMonth') }}</small></span
+              >
+            </div>
+            <h3>{{ i18n.t('roomType.' + room.type) }}</h3>
+            <p class="listing-location">
+              <app-icon name="pin" />{{ room.locationName || i18n.t('listing.askLocation') }}
+            </p>
+            @if (room.journey) {
+            <p class="listing-journey">{{ room.journey }}</p>
+            }
+            <ul class="listing-features">
+              @for (feature of room.features; track $index) {
+              <li>{{ feature }}</li>
+              }
+            </ul>
+            @if (room.description) {
+            <p class="listing-description">{{ room.description }}</p>
+            }
+            <a href="#enquiry" class="button listing-enquire" (click)="enquireRoom(room)"
+              ><app-icon name="whatsapp" />{{ i18n.t('listing.enquire') }}<app-icon
+                name="arrowUpRight"
+            /></a>
+          </div>
+        </article>
+        } @empty {
+        <div class="listing-empty">
+          <app-icon name="search" />
+          <h3>{{ i18n.t(activeFilters() ? 'listing.noMatches' : 'listing.noRooms') }}</h3>
+          <p>{{ i18n.t(activeFilters() ? 'listing.tryAgain' : 'listing.checkBack') }}</p>
+          <div class="actions">
+            @if (activeFilters()) {<button
+              class="button gold"
+              type="button"
+              (click)="resetFilters()"
+            >
+              {{ i18n.t('listing.reset') }}</button
+            >}<a class="text-link" href="#enquiry"
+              >{{ i18n.t('listing.help') }} <app-icon name="whatsapp"
+            /></a>
+          </div>
+        </div>
+        }
+      </div>
+      <p class="listing-note">{{ i18n.t('listing.note') }}</p>
+    </div>
+  </section>
+
   <section class="section about" id="about">
     <div>
       <p class="eyebrow">{{ i18n.t('about.eyebrow') }}</p>
@@ -134,8 +288,8 @@
         <a
           class="location-card property-card"
           [class.property-card-text]="!location.image"
-          href="#enquiry"
-          (click)="chooseLocation(location.name)"
+          href="#rooms"
+          (click)="browseLocation(location.id)"
         >
           @if (location.image) {
           <img
@@ -161,70 +315,6 @@
           </div>
         </a>
         }
-      </div>
-    </div>
-  </section>
-
-  <section class="room-photos-section" id="rooms">
-    <div class="section rooms">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">{{ i18n.t('rooms.eyebrow') }}</p>
-          <h2>{{ i18n.t('rooms.h2') }}</h2>
-        </div>
-
-        <p>
-          {{ i18n.t('rooms.subtitle.1') }}<br />
-          {{ i18n.t('rooms.subtitle.2') }}
-        </p>
-      </div>
-
-      <div class="room-grid">
-        @for ( photo of (showAll() ? photos : featuredPhotos); track photo.id ) {
-        <a href="#enquiry" class="room-card" (click)="chooseRoomType(photo.type)">
-          <img [src]="photo.url" [alt]="photo.alt" loading="lazy" />
-
-          <div class="room-caption">
-            <div class="room-caption-top">
-              <span>{{ photo.code }}</span>
-
-              @if (photo.price) {
-              <span class="room-price">
-                RM {{ photo.price }}
-                <small>{{ i18n.t('rooms.perMonth') }}</small>
-              </span>
-              }
-            </div>
-
-            <h3 class="room-type-heading">
-              <app-icon [name]="photo.price ? 'bed' : 'home'" />{{ photo.type }}
-            </h3>
-            @if (photo.price) {
-            <ul class="room-features">
-              @for (feature of photo.features.split(' · '); track feature) {
-              <li>{{ feature }}</li>
-              }
-            </ul>
-            } @else {
-            <p>{{ photo.features }}</p>
-            }
-          </div>
-        </a>
-        }
-      </div>
-
-      <div class="gallery-footer">
-        <p>{{ i18n.t('rooms.disclaimer') }}</p>
-
-        <button
-          class="text-link navy-link"
-          type="button"
-          (click)="showAll.set(!showAll())"
-          [attr.aria-expanded]="showAll()"
-        >
-          {{ showAll() ? i18n.t('rooms.showLess') : i18n.t('rooms.showAll') }}
-          <span>{{ showAll() ? '−' : '+' }}</span>
-        </button>
       </div>
     </div>
   </section>
@@ -406,6 +496,16 @@
           <strong class="selection-summary-title"
             ><app-icon name="check" />{{ i18n.t('enquiry.selection.title') }}</strong
           >
+          @if (selectedRoom(); as room) {
+          <div class="selected-room-reference">
+            <strong
+              >{{ i18n.t('listing.selected') }}: {{ room.code }} · RM {{ room.monthlyRent | number
+              }} {{ i18n.t('rooms.perMonth') }}</strong
+            ><button type="button" class="text-link" (click)="selectedRoom.set(null)">
+              {{ i18n.t('listing.remove') }}
+            </button>
+          </div>
+          }
           <div class="selection-summary-values">
             @if (preferredLocation()) {
             <span

@@ -14,6 +14,7 @@ export interface PublicCatalog {
     id: string;
     code: string;
     type: string;
+    locationId: string;
     monthlyRent: number;
     features: string[];
     description: string;
@@ -21,7 +22,14 @@ export interface PublicCatalog {
     order: number;
     photos: { url: string; alt: string }[];
   }[];
-  locations: { name: string; journey: string; description: string; image: string; order: number }[];
+  locations: {
+    id: string;
+    name: string;
+    journey: string;
+    description: string;
+    image: string;
+    order: number;
+  }[];
 }
 export const CATALOG_URL = new InjectionToken<string>('Server catalogue URL');
 export const RENDER_REQUEST = new InjectionToken<boolean>('Live SSR request');
@@ -62,21 +70,14 @@ export class PublicCatalogService {
     this.transfer.set(CATALOG_STATE, this.data);
   }
 
-  get photos() {
+  get rooms() {
     return [...this.data.rooms]
+      .filter((room) => room.type !== 'Common Area' && room.photos.length > 0)
       .sort((a, b) => a.order - b.order)
-      .flatMap((room) =>
-        room.photos.map((photo, index) => ({
-          id: `${room.id}-${index}`,
-          url: photo.url,
-          alt: photo.alt,
-          code: room.code,
-          type: room.type,
-          price: room.type === 'Common Area' ? '' : room.monthlyRent.toLocaleString('en-MY'),
-          features: room.features.join(' · '),
-          featured: room.featured,
-        })),
-      );
+      .map((room) => {
+        const location = this.data.locations.find((item) => item.id === room.locationId);
+        return { ...room, locationName: location?.name || '', journey: location?.journey || '' };
+      });
   }
   get locations() {
     return [...this.data.locations].sort((a, b) => a.order - b.order);
