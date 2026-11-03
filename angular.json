@@ -12,7 +12,7 @@
           "options": {
             "outputPath": {
               "base": "dist",
-              "browser": ""
+              "browser": "browser"
             },
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.json",
@@ -31,7 +31,10 @@
               }
             ],
             "server": "src/main.server.ts",
-            "outputMode": "static"
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -67,6 +70,70 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy"
+        }
+      }
+    },
+    "nest-and-nook-admin": {
+      "projectType": "application",
+      "root": "apps/admin",
+      "sourceRoot": "apps/admin/src",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": {
+              "base": ".output/admin",
+              "browser": ""
+            },
+            "browser": "apps/admin/src/main.ts",
+            "tsConfig": "apps/admin/tsconfig.app.json",
+            "index": "apps/admin/src/index.html",
+            "styles": ["apps/admin/src/styles.css"],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/admin/public",
+                "output": "/"
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all",
+              "optimization": {
+                "fonts": false,
+                "scripts": true,
+                "styles": true
+              },
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "600kB",
+                  "maximumError": "1MB"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "nest-and-nook-admin:build:development",
+              "proxyConfig": "apps/admin/proxy.conf.json"
+            }
+          },
+          "defaultConfiguration": "development"
         }
       }
     }

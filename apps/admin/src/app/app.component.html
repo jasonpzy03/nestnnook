@@ -1,0 +1,484 @@
+@if (loading() && !api.email()) {
+  <main class="loading-screen">
+    <div class="brand">Nest <em>&</em> Nook</div>
+    <p>Opening your workspace…</p>
+  </main>
+} @else if (!api.email()) {
+  <main class="login-page">
+    <section class="login-story">
+      <div class="brand">Nest <em>&</em> Nook<small>PROPERTY MANAGEMENT · JOHOR BAHRU</small></div>
+      <div>
+        <p class="eyebrow">A LITTLE CARE. A BETTER HOME.</p>
+        <h1>Thoughtful spaces.<br /><em>Effortlessly managed.</em></h1>
+        <p>Your rooms, your neighbourhoods, your next chapter.</p>
+      </div>
+      <span class="login-footer">The Nest & Nook management workspace</span>
+    </section>
+    <section class="login-panel">
+      <form (ngSubmit)="login()">
+        <span class="login-icon"><admin-icon name="lock" /></span>
+        <p class="eyebrow">WELCOME BACK</p>
+        <h2>Make yourself at home.</h2>
+        <p>Sign in to manage your room collection.</p>
+        <label
+          >Email address<input
+            name="email"
+            type="email"
+            [(ngModel)]="email"
+            required
+            autocomplete="username"
+            maxlength="200" /></label
+        ><label
+          >Password<input
+            name="password"
+            type="password"
+            [(ngModel)]="password"
+            required
+            autocomplete="current-password"
+            maxlength="200"
+        /></label>
+        @if (error()) {
+          <p class="error" role="alert">{{ error() }}</p>
+        }
+        <button class="button" type="submit" [disabled]="busy()">
+          {{ busy() ? 'Signing in…' : 'Sign in to your workspace' }}<admin-icon name="arrow" />
+        </button>
+        <p class="login-note">Private access for the Nest & Nook team.</p>
+      </form>
+    </section>
+  </main>
+} @else {
+  <div class="admin-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" (click)="$event.preventDefault(); navigate('overview')"
+        >Nest <em>&</em> Nook<small>MANAGEMENT STUDIO</small></a
+      >
+      <p class="nav-caption">YOUR WORKSPACE</p>
+      <nav aria-label="Admin navigation">
+        @for (item of sections; track item.id) {
+          <button
+            [class.active]="section() === item.id"
+            [attr.aria-current]="section() === item.id ? 'page' : null"
+            (click)="navigate(item.id)"
+          >
+            <admin-icon [name]="item.icon" />{{ item.label }}
+            @if (item.id === 'rooms') {
+              <span class="nav-count">{{ rooms().length }}</span>
+            }
+          </button>
+        }
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="team-mark">
+          N<span>Nest & Nook<small>Property management</small></span>
+        </div>
+        <button (click)="logout()" [disabled]="busy()"><admin-icon name="logout" />Sign out</button>
+      </div>
+    </aside>
+    <div class="main-shell">
+      <header class="topbar">
+        <span>Workspace <span class="slash">/</span> {{ section() | titlecase }}</span>
+        <div>
+          <span class="environment"
+            ><span></span
+            >{{
+              connection()?.storage === 'upstash' ? 'Upstash connected' : 'Local workspace'
+            }}</span
+          ><span class="avatar" [title]="api.email()">NN</span>
+        </div>
+      </header>
+      <main class="workspace" id="main-content">
+        @if (error()) {
+          <div class="error global-message" role="alert">
+            {{ error() }} <button (click)="load()">Reload catalogue</button>
+          </div>
+        }
+        @if (notice()) {
+          <div class="success global-message" role="status">
+            <admin-icon name="check" />{{ notice()
+            }}<button (click)="notice.set('')" aria-label="Dismiss notification">×</button>
+          </div>
+        }
+        @if (loading()) {
+          <p class="loading-message" role="status">Loading your catalogue…</p>
+        }
+        @if (catalog()) {
+          @switch (section()) {
+            @case ('overview') {
+              <div class="page-heading">
+                <div>
+                  <p class="eyebrow">WELCOME TO YOUR WORKSPACE</p>
+                  <h1>A little room to grow.</h1>
+                  <p>Keep your spaces looking their best, all in one place.</p>
+                </div>
+                <button class="button" (click)="openRoom()">
+                  <admin-icon name="plus" />Add a room
+                </button>
+              </div>
+              <section class="stats" aria-label="Catalogue overview">
+                <article>
+                  <span class="stat-icon"><admin-icon name="rooms" /></span>
+                  <p>Room entries</p>
+                  <strong>{{ rooms().length | number: '2.0-0' }}</strong
+                  ><small>Your complete collection</small>
+                </article>
+                <article>
+                  <span class="stat-icon"><admin-icon name="check" /></span>
+                  <p>Published rooms</p>
+                  <strong>{{ visibleCount() | number: '2.0-0' }}</strong
+                  ><small>Currently on your website</small>
+                </article>
+                <article>
+                  <span class="stat-icon"><admin-icon name="pin" /></span>
+                  <p>Locations</p>
+                  <strong>{{ locations().length | number: '2.0-0' }}</strong
+                  ><small>Neighbourhoods near CIQ</small>
+                </article>
+                <article>
+                  <span class="stat-icon"><admin-icon name="image" /></span>
+                  <p>Featured rooms</p>
+                  <strong>{{ featuredCount() | number: '2.0-0' }}</strong
+                  ><small>The first impressions</small>
+                </article>
+              </section>
+              <section class="workspace-banner">
+                <div>
+                  <span class="eyebrow">YOUR NEXT NOOK STARTS HERE</span>
+                  <h2>Good spaces deserve<br />a great introduction.</h2>
+                  <p>Refresh a photo, fine-tune a price, or add your latest room.</p>
+                  <button class="button gold" (click)="navigate('rooms')">
+                    Manage your rooms<admin-icon name="arrow" />
+                  </button>
+                </div>
+                <div class="banner-art" aria-hidden="true">
+                  <span>N<span>&</span>N</span
+                  ><small>PEACEFUL SPACES.<br />EFFORTLESS LIVING.</small>
+                </div>
+              </section>
+              <div class="section-heading">
+                <div>
+                  <h2>Your room collection</h2>
+                  <p>A quick look at the spaces you manage.</p>
+                </div>
+                <button class="text-button" (click)="navigate('rooms')">
+                  View all rooms <admin-icon name="arrow" />
+                </button>
+              </div>
+              <div class="preview-grid">
+                @for (room of rooms().slice(0, 3); track room.id) {
+                  <button class="preview-card" (click)="openRoom(room)">
+                    @if (room.photos[0]) {
+                      <img [src]="room.photos[0].url" [alt]="room.photos[0].alt" />
+                    } @else {
+                      <div class="photo-placeholder"><admin-icon name="image" /></div>
+                    }
+                    <div>
+                      <span class="eyebrow">{{ room.code }}</span>
+                      <h3>{{ room.type }}</h3>
+                      <p>
+                        {{
+                          room.monthlyRent ? 'RM ' + (room.monthlyRent | number) : 'Shared space'
+                        }}
+                        <small>{{ room.monthlyRent ? '/ month' : '' }}</small>
+                      </p>
+                    </div>
+                    <admin-icon name="arrow" />
+                  </button>
+                } @empty {
+                  <div class="empty">
+                    <h3>Your collection starts here.</h3>
+                    <p>Add your first room to get started.</p>
+                  </div>
+                }
+              </div>
+            }
+            @case ('rooms') {
+              <div class="page-heading">
+                <div>
+                  <p class="eyebrow">YOUR ROOM COLLECTION</p>
+                  <h1>Spaces worth sharing.</h1>
+                  <p>Edit your room details, photos and monthly rent.</p>
+                </div>
+                <button class="button" (click)="openRoom()">
+                  <admin-icon name="plus" />Add a room
+                </button>
+              </div>
+              <section class="panel">
+                <div class="filter-bar">
+                  <label class="search-box"
+                    ><admin-icon name="search" /><input
+                      aria-label="Search rooms"
+                      placeholder="Search room or location…"
+                      [ngModel]="search()"
+                      (ngModelChange)="search.set($event)" /></label
+                  ><select
+                    aria-label="Filter by room type"
+                    [ngModel]="typeFilter()"
+                    (ngModelChange)="typeFilter.set($event)"
+                  >
+                    <option value="">All room types</option>
+                    @for (type of types; track type) {
+                      <option>{{ type }}</option>
+                    }</select
+                  ><select
+                    aria-label="Filter by location"
+                    [ngModel]="locationFilter()"
+                    (ngModelChange)="locationFilter.set($event)"
+                  >
+                    <option value="">All locations</option>
+                    @for (location of locations(); track location.id) {
+                      <option [value]="location.id">{{ location.name }}</option>
+                    }</select
+                  ><select
+                    aria-label="Filter by publication status"
+                    [ngModel]="visibilityFilter()"
+                    (ngModelChange)="visibilityFilter.set($event)"
+                  >
+                    <option value="">All statuses</option>
+                    <option value="Draft">Draft</option>
+                    <option value="Published">Published</option>
+                    <option value="Unpublished changes">Unpublished changes</option>
+                  </select>
+                </div>
+                <div class="table-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Room</th>
+                        <th>Location</th>
+                        <th>Monthly rent</th>
+                        <th>Status</th>
+                        <th>Order</th>
+                        <th><span class="sr-only">Actions</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (room of filteredRooms(); track room.id) {
+                        <tr>
+                          <td>
+                            <button class="room-cell" (click)="openRoom(room)">
+                              @if (room.photos[0]) {
+                                <img [src]="room.photos[0].url" [alt]="room.photos[0].alt" />
+                              } @else {
+                                <span class="photo-placeholder"><admin-icon name="image" /></span>
+                              }
+                              <span
+                                ><strong>{{ room.type }}</strong
+                                ><small
+                                  >{{ room.code }}
+                                  @if (room.featured) {
+                                    <span class="featured">· Featured</span>
+                                  }
+                                </small></span
+                              >
+                            </button>
+                          </td>
+                          <td>{{ locationName(room.locationId) }}</td>
+                          <td class="price-cell">
+                            {{ room.monthlyRent ? 'RM ' + (room.monthlyRent | number) : '—' }}
+                          </td>
+                          <td>
+                            <span
+                              class="status-chip"
+                              [class.hidden]="!isPublished('rooms', room.id)"
+                            >
+                              <span></span>{{ publicationStatus('rooms', room.id) }}
+                            </span>
+                          </td>
+                          <td>{{ room.order }}</td>
+                          <td>
+                            <div class="row-actions">
+                              @if (publicationStatus('rooms', room.id) !== 'Published') {
+                                <button
+                                  class="text-button"
+                                  [disabled]="busy()"
+                                  (click)="publishEntry('rooms', room.id, true)"
+                                >
+                                  <admin-icon name="publish" />{{
+                                    isPublished('rooms', room.id) ? 'Publish changes' : 'Publish'
+                                  }}
+                                </button>
+                              }
+                              @if (isPublished('rooms', room.id)) {
+                                <button
+                                  class="text-button"
+                                  [disabled]="busy()"
+                                  (click)="publishEntry('rooms', room.id, false)"
+                                >
+                                  Unpublish
+                                </button>
+                              }
+                              <button
+                                class="icon-button"
+                                [attr.aria-label]="'Edit ' + room.code"
+                                (click)="openRoom(room)"
+                              >
+                                <admin-icon name="edit" /></button
+                              ><button
+                                class="icon-button"
+                                [attr.aria-label]="'Delete ' + room.code"
+                                (click)="askDelete('room', room.id, room.code)"
+                              >
+                                <admin-icon name="trash" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      } @empty {
+                        <tr>
+                          <td colspan="6">
+                            <div class="empty">
+                              <admin-icon name="search" />
+                              <h3>No rooms found</h3>
+                              <p>Try a different search or add a new room.</p>
+                              <button
+                                class="button secondary"
+                                (click)="
+                                  search.set('');
+                                  typeFilter.set('');
+                                  locationFilter.set('');
+                                  visibilityFilter.set('')
+                                "
+                              >
+                                Clear filters
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                <footer class="table-footer">
+                  {{ filteredRooms().length }} of {{ rooms().length }} room entries
+                  <span>Save drafts, then publish each room individually</span>
+                  <button class="text-button" (click)="exportCatalog()">Export catalogue</button>
+                </footer>
+              </section>
+            }
+            @case ('locations') {
+              <div class="page-heading">
+                <div>
+                  <p class="eyebrow">WELL PLACED FOR EVERYDAY LIFE</p>
+                  <h1>Your neighbourhoods.</h1>
+                  <p>Manage the locations that make a home convenient.</p>
+                </div>
+                <button class="button" (click)="openLocation()">
+                  <admin-icon name="plus" />Add a location
+                </button>
+              </div>
+              <div class="location-grid">
+                @for (location of locations(); track location.id) {
+                  <article class="location-card">
+                    @if (location.image) {
+                      <img [src]="location.image" [alt]="location.name" />
+                    } @else {
+                      <div class="location-placeholder"><admin-icon name="pin" /></div>
+                    }
+                    <div class="location-card-body">
+                      <span class="eyebrow">{{ location.journey || 'JOHOR BAHRU' }}</span>
+                      <h2>{{ location.name }}</h2>
+                      <p>{{ location.description }}</p>
+                      <div class="location-actions">
+                        <span
+                          class="status-chip"
+                          [class.hidden]="!isPublished('locations', location.id)"
+                          ><span></span>{{ publicationStatus('locations', location.id) }}</span
+                        >
+                        @if (publicationStatus('locations', location.id) !== 'Published') {
+                          <button
+                            class="text-button"
+                            [disabled]="busy()"
+                            (click)="publishEntry('locations', location.id, true)"
+                          >
+                            Publish{{ isPublished('locations', location.id) ? ' changes' : '' }}
+                          </button>
+                        }
+                        @if (isPublished('locations', location.id)) {
+                          <button
+                            class="text-button"
+                            [disabled]="busy()"
+                            (click)="publishEntry('locations', location.id, false)"
+                          >
+                            Unpublish
+                          </button>
+                        }
+                        <button class="text-button" (click)="openLocation(location)">
+                          Edit location<admin-icon name="edit" /></button
+                        ><button
+                          class="icon-button"
+                          [attr.aria-label]="'Delete ' + location.name"
+                          (click)="askDelete('location', location.id, location.name)"
+                        >
+                          <admin-icon name="trash" />
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                } @empty {
+                  <div class="empty">
+                    <h2>Add your first neighbourhood.</h2>
+                    <p>Locations help organise your room collection.</p>
+                  </div>
+                }
+              </div>
+            }
+          }
+        }
+        <footer class="workspace-footer">
+          <span>Nest & Nook · Peaceful spaces, effortless living.</span
+          ><span>Management workspace</span>
+        </footer>
+      </main>
+    </div>
+  </div>
+}
+<dialog
+  #editor
+  class="editor-dialog"
+  aria-label="Edit catalogue entry"
+  (cancel)="$event.preventDefault(); closeEditor()"
+>
+  @if (editorError()) {
+    <p class="error editor-error" role="alert">{{ editorError() }}</p>
+  }
+  @if (roomEditor(); as room) {
+    <room-editor
+      [room]="room"
+      [locations]="locations()"
+      [uploadsEnabled]="connection()?.uploadsEnabled || false"
+      [saving]="busy()"
+      (saved)="saveRoom($event)"
+      (cancelled)="closeEditor()"
+    />
+  }
+  @if (locationEditor(); as location) {
+    <location-editor
+      [location]="location"
+      [saving]="busy()"
+      (saved)="saveLocation($event)"
+      (cancelled)="closeEditor()"
+    />
+  }
+</dialog>
+<dialog
+  #confirmation
+  class="confirm-dialog"
+  aria-label="Confirm deletion"
+  (cancel)="$event.preventDefault(); cancelDelete()"
+>
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  @if (pendingDelete(); as item) {
+    <span class="stat-icon"><admin-icon name="trash" /></span>
+    <h2>Delete {{ item.name }}?</h2>
+    <p>Unpublish this entry before deleting it. Deletion permanently removes the saved draft.</p>
+    <div class="dialog-actions">
+      <button class="button secondary" [disabled]="busy()" (click)="cancelDelete()">Keep it</button
+      ><button class="button danger" [disabled]="busy()" (click)="remove()">
+        {{ busy() ? 'Deleting…' : 'Delete ' + item.kind }}
+      </button>
+    </div>
+  }
+</dialog>

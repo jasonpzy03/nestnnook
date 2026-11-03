@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CONTACT } from './site.config';
-import { FEATURED_ROOMS, ROOMS } from './rooms';
-import { LOCATIONS } from './locations';
+import { PublicCatalogService } from './public-catalog.service';
 import { IconComponent } from './icon';
 import { GOOGLE_REVIEWS } from './reviews';
 import { I18nService } from './i18n.service';
@@ -18,9 +17,10 @@ export class AppComponent {
   readonly contact = CONTACT;
   readonly year = new Date().getFullYear();
   readonly menuOpen = signal(false);
-  readonly photos = ROOMS;
-  readonly featuredPhotos = FEATURED_ROOMS;
-  readonly locations = LOCATIONS;
+  private readonly catalog = inject(PublicCatalogService);
+  readonly photos = this.catalog.photos;
+  readonly featuredPhotos = this.photos.filter((photo) => photo.featured);
+  readonly locations = this.catalog.locations;
   readonly reviews = GOOGLE_REVIEWS;
   readonly showAll = signal(false);
   readonly preferredLocation = signal('');

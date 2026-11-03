@@ -1,3 +1,4 @@
+// Legacy reference only. Live content is managed in the admin catalogue.
 export const LOCATIONS = [
   {
     name: 'R&F Princess Cove',

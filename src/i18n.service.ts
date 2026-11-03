@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { afterNextRender, Injectable, signal } from '@angular/core';
 import { TRANSLATIONS } from './i18n';
 
 export type Lang = 'en' | 'zh' | 'ms';
@@ -31,10 +31,10 @@ function loadLang(): Lang {
 
 @Injectable({ providedIn: 'root' })
 export class I18nService {
-  readonly lang = signal<Lang>(loadLang());
+  readonly lang = signal<Lang>('en');
 
   constructor() {
-    this.applyHtmlLang(this.lang());
+    afterNextRender(() => this.setLang(loadLang()));
   }
 
   /** Look up a translation key for the current language. Falls back to English, then to the raw key. */
