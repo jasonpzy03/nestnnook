@@ -33,7 +33,7 @@ npm --prefix apps/api ci
 npm run setup:api
 ```
 
-Setup creates a unique local administrator and writes the credentials to `apps/api/.data/local-login.txt`. Both `.env` and `.data` are ignored by Git. Setup refuses to overwrite an existing account. This installation has already been set up; do not run setup again unless starting with a new checkout.
+Setup creates a unique local administrator password and writes it to `apps/api/.data/local-login.txt`. Both `.env` and `.data` are ignored by Git. Setup refuses to overwrite an existing account. This installation has already been set up; do not run setup again unless starting with a new checkout.
 
 Start the API and admin in separate terminals:
 
@@ -62,6 +62,8 @@ Saving changes keeps them as drafts. Each room row has **Publish**, **Publish ch
 Publish a room's assigned location first. A location cannot be unpublished while published rooms reference it: unpublish those rooms or publish their reassignment first. Unpublish an entry before deleting it. The legacy `visible` field is retained for storage compatibility but no longer controls publishing.
 
 `GET /api/public/catalog` returns only published entries, or empty collections before the first publication. The client SSR server fetches this endpoint on each page request. No deploy hook or client rebuild is involved. Existing browser tabs see changes after reload. API actions are `POST /api/catalog/rooms/:id/publish` and `/unpublish`, and equivalent `/locations/:id/` routes; all require authentication and the current catalogue revision. The old bulk-publish route has been removed.
+
+The admin login requires only a password. `ADMIN_PASSWORD_HASH` configures it; `ADMIN_EMAIL` is no longer used. Existing password hashes and sessions remain valid. Deploy both admin and API updates together.
 
 ## Connecting Upstash
 

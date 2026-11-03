@@ -1,10 +1,9 @@
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsString, MaxLength, MinLength } from 'class-validator';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthGuard, sessionToken } from './auth.guard';
 class LoginDto {
-  @IsEmail() @MaxLength(200) email!: string;
   @IsString() @MinLength(1) @MaxLength(200) password!: string;
 }
 const options = {
@@ -21,12 +20,12 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const token = await this.auth.login(body.email, body.password, request.ip || 'unknown');
+    const token = await this.auth.login(body.password, request.ip || 'unknown');
     response.cookie('nn_admin', token, { ...options, maxAge: 28800000 });
-    return { email: process.env.ADMIN_EMAIL };
+    return { authenticated: true };
   }
   @Get('me') @UseGuards(AuthGuard) me() {
-    return { email: process.env.ADMIN_EMAIL };
+    return { authenticated: true };
   }
   @Post('logout') async logout(
     @Req() request: Request,

@@ -27,7 +27,7 @@ test('admin authentication, catalogue lifecycle, optimistic locking and upload v
       PORT: String(port),
       STORAGE_DRIVER: 'local',
       ADMIN_ORIGIN: origin,
-      ADMIN_EMAIL: 'test@example.com',
+      ADMIN_EMAIL: '',
       ADMIN_PASSWORD_HASH: `${salt}:${scryptSync(password, salt, 64).toString('hex')}`,
       ALLOW_LOCAL_UPLOADS: 'true',
     },
@@ -64,27 +64,20 @@ test('admin authentication, catalogue lifecycle, optimistic locking and upload v
       401,
     );
     assert.equal(
-      (
-        await request(
-          'auth/login',
-          'POST',
-          { email: 'test@example.com', password },
-          { origin: 'https://evil.example' },
-        )
-      ).status,
+      (await request('auth/login', 'POST', { password }, { origin: 'https://evil.example' }))
+        .status,
       403,
     );
-    assert.equal(
-      (await request('auth/login', 'POST', { email: 'test@example.com', password: 'wrong' }))
-        .status,
-      401,
-    );
-    const login = await request('auth/login', 'POST', { email: 'test@example.com', password });
+    assert.equal((await request('auth/login', 'POST', { password: 'wrong' })).status, 401);
+    assert.equal((await request('auth/login', 'POST', {})).status, 400);
+    assert.equal((await request('auth/login', 'POST', { password: '' })).status, 400);
+    const login = await request('auth/login', 'POST', { password });
     assert.equal(login.status, 201);
+    assert.deepEqual(await login.json(), { authenticated: true });
     assert.match(login.headers.get('set-cookie'), /HttpOnly/);
     assert.match(login.headers.get('set-cookie'), /SameSite=Strict/);
     cookie = login.headers.get('set-cookie').split(';')[0];
-    assert.equal((await request('auth/me')).status, 200);
+    assert.deepEqual(await (await request('auth/me')).json(), { authenticated: true });
     assert.deepEqual(
       (await (await request('public/catalog', 'GET', undefined, { cookie: '' })).json()).rooms,
       [],
@@ -242,13 +235,8 @@ test('admin authentication, catalogue lifecycle, optimistic locking and upload v
     assert.match((await response.json()).url, /^\/uploads\/[a-f0-9-]+\.png$/);
     assert.equal((await request('auth/logout', 'POST', {})).status, 201);
     assert.equal((await request('catalog')).status, 401);
-    for (let i = 0; i < 10; i++)
-      await request('auth/login', 'POST', { email: 'test@example.com', password: 'wrong' });
-    assert.equal(
-      (await request('auth/login', 'POST', { email: 'test@example.com', password: 'wrong' }))
-        .status,
-      429,
-    );
+    for (let i = 0; i < 10; i++) await request('auth/login', 'POST', { password: 'wrong' });
+    assert.equal((await request('auth/login', 'POST', { password: 'wrong' })).status, 429);
   } finally {
     server.kill();
     if (server.exitCode === null) await once(server, 'exit');

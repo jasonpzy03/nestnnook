@@ -1,9 +1,9 @@
-@if (loading() && !api.email()) {
+@if (loading() && !api.authenticated()) {
   <main class="loading-screen">
     <div class="brand">Nest <em>&</em> Nook</div>
     <p>Opening your workspace…</p>
   </main>
-} @else if (!api.email()) {
+} @else if (!api.authenticated()) {
   <main class="login-page">
     <section class="login-story">
       <div class="brand">Nest <em>&</em> Nook<small>PROPERTY MANAGEMENT · JOHOR BAHRU</small></div>
@@ -21,14 +21,6 @@
         <h2>Make yourself at home.</h2>
         <p>Sign in to manage your room collection.</p>
         <label
-          >Email address<input
-            name="email"
-            type="email"
-            [(ngModel)]="email"
-            required
-            autocomplete="username"
-            maxlength="200" /></label
-        ><label
           >Password<input
             name="password"
             type="password"
@@ -84,7 +76,7 @@
             >{{
               connection()?.storage === 'upstash' ? 'Upstash connected' : 'Local workspace'
             }}</span
-          ><span class="avatar" [title]="api.email()">NN</span>
+          ><span class="avatar" title="Administrator">NN</span>
         </div>
       </header>
       <main class="workspace" id="main-content">

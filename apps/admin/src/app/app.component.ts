@@ -51,7 +51,6 @@ export class AppComponent {
       { id: 'locations', label: 'Locations', icon: 'pin' },
     ];
   readonly types = ROOM_TYPES;
-  email = '';
   password = '';
   readonly rooms = computed(() =>
     [...(this.catalog()?.rooms || [])].sort((a, b) => a.order - b.order),
@@ -80,7 +79,7 @@ export class AppComponent {
   );
   constructor() {
     effect(() => {
-      if (!this.api.email()) {
+      if (!this.api.authenticated()) {
         this.editor()?.nativeElement.close();
         this.confirmation()?.nativeElement.close();
         this.roomEditor.set(null);
@@ -96,7 +95,7 @@ export class AppComponent {
       await this.api.restore();
       await this.load();
     } catch (error) {
-      if (this.api.email()) this.error.set((error as Error).message);
+      if (this.api.authenticated()) this.error.set((error as Error).message);
     } finally {
       this.loading.set(false);
     }
@@ -105,7 +104,7 @@ export class AppComponent {
     this.busy.set(true);
     this.error.set('');
     try {
-      await this.api.login(this.email, this.password);
+      await this.api.login(this.password);
       this.password = '';
       await this.load();
     } catch (error) {
