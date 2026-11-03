@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Controller,
   ForbiddenException,
+  ServiceUnavailableException,
   Post,
   UploadedFile,
   UseGuards,
@@ -12,16 +13,18 @@ import { randomUUID } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { AuthGuard } from '../auth/auth.guard';
+import { blobUploadsEnabled, localUploadsEnabled } from './upload-config';
+import { put } from '@vercel/blob';
 
 @Controller('media')
 @UseGuards(AuthGuard)
 export class MediaController {
   @Post()
-  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: 5 * 1024 * 1024, files: 1 } }))
+  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: 4 * 1024 * 1024, files: 1 } }))
   async upload(@UploadedFile() file?: Express.Multer.File) {
-    if (process.env.ALLOW_LOCAL_UPLOADS !== 'true' || process.env.NODE_ENV === 'production')
+    if (!blobUploadsEnabled() && !localUploadsEnabled())
       throw new ForbiddenException(
-        'Use a hosted HTTPS image URL. Production image storage is not configured yet.',
+        'Image storage is not configured. Connect a public Vercel Blob store to the API project and set BLOB_READ_WRITE_TOKEN, or use a hosted HTTPS image URL.',
       );
     if (!file?.buffer) throw new BadRequestException('Choose an image.');
     const bytes = file.buffer;
@@ -33,8 +36,22 @@ export class MediaController {
           ? 'webp'
           : null;
     if (!extension) throw new BadRequestException('Only JPEG, PNG and WebP photos are supported.');
-    await mkdir(resolve('.data/uploads'), { recursive: true });
     const name = `${randomUUID()}.${extension}`;
+    if (blobUploadsEnabled()) {
+      try {
+        const blob = await put(`rooms/${name}`, bytes, {
+          access: 'public',
+          contentType: extension === 'jpg' ? 'image/jpeg' : `image/${extension}`,
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        });
+        return { url: blob.url };
+      } catch {
+        throw new ServiceUnavailableException(
+          'Image storage is unavailable. Check the API project’s BLOB_READ_WRITE_TOKEN and that its Blob store allows public access, then retry.',
+        );
+      }
+    }
+    await mkdir(resolve('.data/uploads'), { recursive: true });
     await writeFile(resolve('.data/uploads', name), bytes);
     return { url: `/uploads/${name}` };
   }
