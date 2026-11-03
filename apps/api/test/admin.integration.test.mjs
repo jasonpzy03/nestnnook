@@ -30,6 +30,8 @@ test('admin authentication, catalogue lifecycle, optimistic locking and upload v
       ADMIN_EMAIL: '',
       ADMIN_PASSWORD_HASH: `${salt}:${scryptSync(password, salt, 64).toString('hex')}`,
       ALLOW_LOCAL_UPLOADS: 'true',
+      BLOB_READ_WRITE_TOKEN: '',
+      VERCEL: '',
     },
     stdio: 'pipe',
   });

@@ -140,9 +140,14 @@
       @if (uploadsEnabled()) {
         <label class="upload-box"
           ><admin-icon name="image" /><span
-            >Upload a photo<small>JPEG, PNG or WebP · up to 5 MB · local storage</small></span
+            >Upload a photo<small>JPEG, PNG or WebP · up to 4 MB</small></span
           ><input type="file" accept="image/jpeg,image/png,image/webp" (change)="upload($event)"
         /></label>
+      } @else {
+        <p class="muted">
+          Photo uploads are not configured. Connect a public Vercel Blob store to the API project,
+          or add a hosted image URL above.
+        </p>
       }
     </section>
     <section class="editor-section">

@@ -60,7 +60,7 @@ export class ApiService {
     );
   }
   async upload(file: File) {
-    if (file.size > 5 * 1024 * 1024) throw new Error('Choose a photo smaller than 5 MB.');
+    if (file.size > 4 * 1024 * 1024) throw new Error('Choose a photo no larger than 4 MB.');
     const body = new FormData();
     body.append('file', file);
     return this.request<{ url: string }>('media', 'POST', body);

@@ -3,6 +3,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { CatalogService } from './catalog.service';
 import { CatalogDto, RevisionDto } from './catalog.dto';
 import { CatalogStore } from '../storage/catalog.store';
+import { blobUploadsEnabled, localUploadsEnabled } from '../media/upload-config';
 
 @Controller('catalog')
 @UseGuards(AuthGuard)
@@ -39,8 +40,7 @@ export class CatalogController {
     return {
       storage: this.store.driver,
       publishingConnected: true,
-      uploadsEnabled:
-        process.env.ALLOW_LOCAL_UPLOADS === 'true' && process.env.NODE_ENV !== 'production',
+      uploadsEnabled: blobUploadsEnabled() || localUploadsEnabled(),
     };
   }
 }

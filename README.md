@@ -67,3 +67,9 @@ The canonical URL is now configured as https://nestnnook.vercel.app/ (without a 
 ## Google reviews
 
 The reviews section links to the supplied Google Maps listing and shows the observed 4.8/5 rating, dated 24 September 2026. It is a static snapshot, not a live reviews feed; recheck it before changing the rating/date. Three selected five-star reviews are stored in src/reviews.ts with reviewer names and direct Google links. Text was verified through the supplied individual review links; Mochi is a marked excerpt. The overall review count was not available and is not displayed. Review content and rating are static snapshots; recheck the original links before updating. No review or aggregate-rating structured data is added for these testimonials.
+
+### Production room photo uploads
+
+Create a **public** Vercel Blob store and connect it to the **API** project. Set `BLOB_READ_WRITE_TOKEN` in the API project environment, then redeploy both API and admin. Keep the token out of the Angular apps. Uploads accept JPEG, PNG and WebP up to 4 MB; the authenticated API validates image signatures and returns a public Blob URL, which is stored with the room in Upstash. Save the room and publish it to show the photo publicly. Uploaded photos are public by URL even before the room is published.
+
+For local Blob uploads, add the token to `apps/api/.env` and restart the API. Without a Blob token, local filesystem uploads remain available only with `ALLOW_LOCAL_UPLOADS=true` outside production and Vercel. Removing a photo from a room does not delete its Blob file; delete unused files separately only after ensuring no published room uses them.

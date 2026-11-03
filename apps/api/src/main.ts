@@ -6,6 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import { resolve } from 'node:path';
 import { AppModule } from './app.module';
+import { localUploadsEnabled } from './media/upload-config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -24,8 +25,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true }),
   );
-  if (process.env.NODE_ENV !== 'production')
-    app.useStaticAssets(resolve('.data/uploads'), { prefix: '/uploads/' });
+  if (localUploadsEnabled()) app.useStaticAssets(resolve('.data/uploads'), { prefix: '/uploads/' });
   await app.listen(
     Number(process.env.PORT || 3000),
     process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1',
