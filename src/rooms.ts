@@ -1,3 +1,4 @@
+// Legacy reference only. Live content is managed in the admin catalogue.
 // Reference: assets/roominfo.txt. Photos illustrate room types, not bookable inventory.
 export const ROOMS = [
   {

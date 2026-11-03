@@ -24,10 +24,9 @@ if (configuredUrl) {
   siteUrl = parsed.href.replace(/\/+$/, '') + '/';
 }
 
-const output = resolve(root, 'dist');
-// Static hosting needs only the prerendered document; avoid publishing a duplicate CSR page.
-await rm(resolve(output, 'index.csr.html'), { force: true });
-const htmlPath = resolve(output, 'index.html');
+const output = resolve(root, 'dist/browser');
+// Add metadata to the template used by the SSR server.
+const htmlPath = resolve(output, 'index.csr.html');
 let html = await readFile(htmlPath, 'utf8');
 // Permit rerunning metadata generation on the same build.
 html = html.replace(/\n?<!-- generated-seo -->[\s\S]*?<!-- \/generated-seo -->\n?/g, '');

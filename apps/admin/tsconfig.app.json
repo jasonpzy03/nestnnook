@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "outDir": "../../.output/admin-ts" },
+  "include": ["src/**/*.ts"]
+}

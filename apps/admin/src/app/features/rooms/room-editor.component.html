@@ -1,0 +1,185 @@
+<form (ngSubmit)="submit()" class="editor-form">
+  <div class="editor-heading">
+    <div>
+      <p class="eyebrow">ROOM DETAILS</p>
+      <h2>{{ room().code || 'A new room' }}</h2>
+      <p>Give your next tenant a clear picture.</p>
+    </div>
+    <button
+      type="button"
+      class="icon-button"
+      aria-label="Close room editor"
+      [disabled]="saving() || uploading()"
+      (click)="cancelled.emit()"
+    >
+      <admin-icon name="close" />
+    </button>
+  </div>
+  <fieldset [disabled]="saving() || uploading()" class="editor-fields">
+    <div class="form-row">
+      <label
+        >Room reference<input
+          name="code"
+          [(ngModel)]="room().code"
+          required
+          maxlength="60"
+          placeholder="e.g. R08" /></label
+      ><label
+        >Room type<select name="type" [(ngModel)]="room().type">
+          @for (type of types; track type) {
+            <option>{{ type }}</option>
+          }
+        </select></label
+      >
+    </div>
+    <div class="form-row">
+      <label
+        >Monthly rent (RM)<input
+          name="rent"
+          type="number"
+          [(ngModel)]="room().monthlyRent"
+          [min]="room().type === 'Common Area' ? 0 : 1"
+          max="100000"
+          step="1"
+          required /></label
+      ><label
+        >Location<select name="location" [(ngModel)]="room().locationId">
+          <option value="">Not assigned</option>
+          @for (location of locations(); track location.id) {
+            <option [value]="location.id">{{ location.name }}</option>
+          }
+        </select></label
+      >
+    </div>
+    <label
+      >Description<textarea
+        name="description"
+        [(ngModel)]="room().description"
+        maxlength="2000"
+        rows="3"
+        placeholder="What makes this space feel like home?"
+      ></textarea>
+    </label>
+    <section class="editor-section">
+      <h3>Room features</h3>
+      <p class="hint">Shown as the white labels on your room cards.</p>
+      <div class="chips">
+        @for (feature of room().features; track feature; let i = $index) {
+          <span class="chip"
+            >{{ feature
+            }}<button
+              type="button"
+              (click)="room().features.splice(i, 1)"
+              [attr.aria-label]="'Remove ' + feature"
+            >
+              ×
+            </button></span
+          >
+        }
+      </div>
+      <div class="input-action">
+        <input
+          name="feature"
+          [(ngModel)]="feature"
+          maxlength="80"
+          placeholder="e.g. Private bathroom"
+          aria-label="New room feature"
+          (keydown.enter)="$event.preventDefault(); addFeature()"
+        /><button class="button secondary" type="button" (click)="addFeature()">Add feature</button>
+      </div>
+    </section>
+    <section class="editor-section">
+      <h3>
+        Room photos <span class="hint">{{ room().photos.length }} / 12</span>
+      </h3>
+      <p class="hint">The first photo is the cover. Add descriptive alt text for each image.</p>
+      <div class="photo-editor">
+        @for (photo of room().photos; track $index; let i = $index) {
+          <div class="photo-row">
+            <img [src]="photo.url" [alt]="photo.alt" />
+            <div>
+              <span class="eyebrow">{{ i === 0 ? 'COVER PHOTO' : 'PHOTO ' + (i + 1) }}</span
+              ><input
+                [name]="'alt' + i"
+                [(ngModel)]="photo.alt"
+                maxlength="200"
+                aria-label="Photo description"
+              />
+              <div class="photo-actions">
+                <button type="button" [disabled]="i === 0" (click)="movePhoto(i, -1)">
+                  Move earlier</button
+                ><button
+                  type="button"
+                  [disabled]="i === room().photos.length - 1"
+                  (click)="movePhoto(i, 1)"
+                >
+                  Move later</button
+                ><button type="button" class="danger-text" (click)="room().photos.splice(i, 1)">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <label
+        >Hosted image URL<input
+          name="photoUrl"
+          [(ngModel)]="photoUrl"
+          maxlength="2048"
+          placeholder="https://…" /></label
+      ><label
+        >Photo description<input
+          name="photoAlt"
+          [(ngModel)]="photoAlt"
+          maxlength="200"
+          placeholder="Bright master room with a private bathroom" /></label
+      ><button type="button" class="button secondary" (click)="addPhoto()">
+        <admin-icon name="plus" />Add image URL
+      </button>
+      @if (uploadsEnabled()) {
+        <label class="upload-box"
+          ><admin-icon name="image" /><span
+            >Upload a photo<small>JPEG, PNG or WebP · up to 5 MB · local storage</small></span
+          ><input type="file" accept="image/jpeg,image/png,image/webp" (change)="upload($event)"
+        /></label>
+      }
+    </section>
+    <section class="editor-section">
+      <h3>Display settings</h3>
+      <div class="toggle-row">
+        <label
+          ><input type="checkbox" name="featured" [(ngModel)]="room().featured" />Featured
+          room</label
+        >
+      </div>
+      <label
+        >Display order<input
+          name="order"
+          type="number"
+          [(ngModel)]="room().order"
+          min="0"
+          max="9999"
+          required
+        /><small>Lower numbers appear first.</small></label
+      >
+    </section>
+  </fieldset>
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  <div class="editor-footer">
+    <button
+      type="button"
+      class="button secondary"
+      [disabled]="saving() || uploading()"
+      (click)="cancelled.emit()"
+    >
+      Cancel</button
+    ><button class="button" type="submit" [disabled]="saving() || uploading()">
+      <admin-icon name="check" />{{
+        uploading() ? 'Uploading…' : saving() ? 'Saving…' : 'Save room'
+      }}
+    </button>
+  </div>
+</form>

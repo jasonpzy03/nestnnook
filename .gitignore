@@ -3,3 +3,9 @@ dist/
 .angular/
 .npm-cache/
 *.log
+.env
+.env.*
+!.env.example
+.data/
+.output/
+.vercel/

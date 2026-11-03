@@ -140,7 +140,7 @@
           @if (location.image) {
           <img
             class="property-thumbnail"
-            [src]="'assets/' + location.image"
+            [src]="location.image"
             [alt]="location.name + ' exterior'"
             loading="lazy"
             width="640"
@@ -180,13 +180,9 @@
       </div>
 
       <div class="room-grid">
-        @for ( photo of (showAll() ? photos : featuredPhotos); track photo.file ) {
+        @for ( photo of (showAll() ? photos : featuredPhotos); track photo.id ) {
         <a href="#enquiry" class="room-card" (click)="chooseRoomType(photo.type)">
-          <img
-            [src]="'assets/' + photo.file"
-            [alt]="photo.type + ' — ' + photo.features"
-            loading="lazy"
-          />
+          <img [src]="photo.url" [alt]="photo.alt" loading="lazy" />
 
           <div class="room-caption">
             <div class="room-caption-top">
