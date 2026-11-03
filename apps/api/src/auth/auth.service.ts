@@ -9,19 +9,14 @@ export class AuthService {
   private readonly attempts = new Map<string, { count: number; expires: number }>();
   private readonly prefix = `${process.env.REDIS_KEY_PREFIX || 'nestnnook'}:auth:`;
   constructor() {
-    if (
-      !process.env.ADMIN_EMAIL ||
-      !/^[a-f0-9]{32}:[a-f0-9]{128}$/.test(process.env.ADMIN_PASSWORD_HASH || '')
-    ) {
-      throw new Error(
-        'Configure ADMIN_EMAIL and ADMIN_PASSWORD_HASH. For local use run npm run setup.',
-      );
+    if (!/^[a-f0-9]{32}:[a-f0-9]{128}$/.test(process.env.ADMIN_PASSWORD_HASH || '')) {
+      throw new Error('Configure ADMIN_PASSWORD_HASH. For local use run npm run setup.');
     }
   }
   private key(token: string) {
     return this.prefix + 'session:' + createHash('sha256').update(token).digest('hex');
   }
-  async login(email: string, password: string, ip: string): Promise<string> {
+  async login(password: string, ip: string): Promise<string> {
     const bucket = this.prefix + 'attempt:' + createHash('sha256').update(ip).digest('hex');
     let count: number;
     if (this.redis) {
@@ -41,8 +36,7 @@ export class AuthService {
       throw new HttpException('Too many sign-in attempts. Please try again in 15 minutes.', 429);
     const [salt, expected] = process.env.ADMIN_PASSWORD_HASH!.split(':');
     const matches = timingSafeEqual(scryptSync(password, salt, 64), Buffer.from(expected, 'hex'));
-    if (!matches || email.toLowerCase() !== process.env.ADMIN_EMAIL!.toLowerCase())
-      throw new UnauthorizedException('Email or password is incorrect.');
+    if (!matches) throw new UnauthorizedException('Password is incorrect.');
     const token = randomBytes(32).toString('hex');
     if (this.redis) await this.redis.set(this.key(token), 'valid', { ex: 28800 });
     else {

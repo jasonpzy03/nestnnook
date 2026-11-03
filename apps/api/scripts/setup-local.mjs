@@ -10,7 +10,6 @@ await writeFile(
     'NODE_ENV=development',
     'PORT=3000',
     'ADMIN_ORIGIN=http://127.0.0.1:4201',
-    'ADMIN_EMAIL=admin@nestnnook.local',
     `ADMIN_PASSWORD_HASH=${hash}`,
     'STORAGE_DRIVER=local',
     'ALLOW_LOCAL_UPLOADS=true',
@@ -18,9 +17,7 @@ await writeFile(
   ].join('\n'),
   { flag: 'wx' },
 );
-await writeFile(
-  '.data/local-login.txt',
-  `Local development only\nEmail: admin@nestnnook.local\nPassword: ${password}\n`,
-  { flag: 'wx' },
-);
+await writeFile('.data/local-login.txt', `Local development only\nPassword: ${password}\n`, {
+  flag: 'wx',
+});
 console.log('Created .env and .data/local-login.txt. Existing configuration is never overwritten.');

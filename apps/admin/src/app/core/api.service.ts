@@ -3,7 +3,7 @@ import { Catalog, ConnectionStatus } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  readonly email = signal('');
+  readonly authenticated = signal(false);
   async request<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
     let response: Response;
     try {
@@ -20,7 +20,7 @@ export class ApiService {
       );
     }
     if (!response.ok) {
-      if (response.status === 401) this.email.set('');
+      if (response.status === 401) this.authenticated.set(false);
       const error = await response.json().catch(() => ({}));
       const message = Array.isArray(error.message) ? error.message.join(' ') : error.message;
       throw new Error(message || 'The request could not be completed. Please try again.');
@@ -28,16 +28,16 @@ export class ApiService {
     return response.json();
   }
   async restore() {
-    const user = await this.request<{ email: string }>('auth/me');
-    this.email.set(user.email);
+    const user = await this.request<{ authenticated: boolean }>('auth/me');
+    this.authenticated.set(user.authenticated);
   }
-  async login(email: string, password: string) {
-    const user = await this.request<{ email: string }>('auth/login', 'POST', { email, password });
-    this.email.set(user.email);
+  async login(password: string) {
+    const user = await this.request<{ authenticated: boolean }>('auth/login', 'POST', { password });
+    this.authenticated.set(user.authenticated);
   }
   async logout() {
     await this.request('auth/logout', 'POST', {});
-    this.email.set('');
+    this.authenticated.set(false);
   }
   catalog() {
     return this.request<Catalog>('catalog');
