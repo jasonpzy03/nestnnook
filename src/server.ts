@@ -74,6 +74,7 @@ export const reqHandler = createNodeRequestHandler(
         documentFilePath: resolve(browser, 'index.csr.html'),
         url: 'http://localhost/',
         publicPath: browser,
+        // Keep the build's full blocking stylesheet: rooms are only known at request time.
         inlineCriticalCss: false,
         providers: [{ provide: RENDER_REQUEST, useValue: true }],
       });

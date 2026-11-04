@@ -28,11 +28,25 @@ const server = createServer(reqHandler);
 server.listen(0, '127.0.0.1');
 await once(server, 'listening');
 const base = `http://127.0.0.1:${server.address().port}`;
+function assertBlockingStyles(html) {
+  const head = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || '';
+  const styles = (head.match(/<link\b[^>]*>/gi) || []).filter((link) =>
+    /rel="stylesheet"/i.test(link),
+  );
+  assert.ok(styles.length > 0, 'SSR must include a stylesheet in the document head');
+  for (const link of styles) {
+    assert.ok(
+      !/media="(?!all")[^"]*"|onload=/i.test(link),
+      'SSR styles must block first paint instead of waiting for an onload handler',
+    );
+  }
+}
 try {
   let response = await fetch(base);
   assert.equal(response.status, 200);
   assert.equal(response.headers.get('cache-control'), 'no-store');
   let html = await response.text();
+  assertBlockingStyles(html);
   assert.match(html, /1,688/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /ngh=/);
@@ -49,6 +63,7 @@ try {
   catalog.rooms[0].code = 'SSR-UPDATED';
   catalog.locations[0].name = 'Updated location';
   html = await (await fetch(base)).text();
+  assertBlockingStyles(html);
   assert.match(html, /2,345/);
   assert.match(html, /SSR-UPDATED/);
   assert.match(html, /Updated location/);

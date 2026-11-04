@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Catalog, ConnectionStatus } from './models';
+import { preparePhoto } from './prepare-photo';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -22,8 +23,21 @@ export class ApiService {
     if (!response.ok) {
       if (response.status === 401) this.authenticated.set(false);
       const error = await response.json().catch(() => ({}));
-      const message = Array.isArray(error.message) ? error.message.join(' ') : error.message;
-      throw new Error(message || 'The request could not be completed. Please try again.');
+      const message = Array.isArray(error?.message) ? error.message.join(' ') : error?.message;
+      const fallback: Record<number, string> = {
+        401: 'Your session has expired. Sign in again and retry.',
+        403: 'Access was denied. Refresh the page and sign in again. If this continues, check the API origin and deployment access settings.',
+        413: 'The photo is too large for the server. Try a smaller photo.',
+        429: 'Too many requests. Wait a moment before trying again.',
+        502: 'The management server could not be reached. Please try again shortly.',
+        503: 'The management server is temporarily unavailable. Please try again shortly.',
+        504: 'The upload or request timed out. Check your connection and try a smaller photo.',
+      };
+      throw new Error(
+        (typeof message === 'string' && message) ||
+          fallback[response.status] ||
+          `The request failed (HTTP ${response.status}). Please retry. If it continues, share this error code so we can check the server logs.`,
+      );
     }
     return response.json();
   }
@@ -60,9 +74,9 @@ export class ApiService {
     );
   }
   async upload(file: File) {
-    if (file.size > 4 * 1024 * 1024) throw new Error('Choose a photo no larger than 4 MB.');
+    const photo = await preparePhoto(file);
     const body = new FormData();
-    body.append('file', file);
+    body.append('file', photo);
     return this.request<{ url: string }>('media', 'POST', body);
   }
 }

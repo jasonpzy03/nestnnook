@@ -140,8 +140,13 @@
       @if (uploadsEnabled()) {
         <label class="upload-box"
           ><admin-icon name="image" /><span
-            >Upload a photo<small>JPEG, PNG or WebP · up to 4 MB</small></span
-          ><input type="file" accept="image/jpeg,image/png,image/webp" (change)="upload($event)"
+            >Upload a photo<small
+              >JPEG, PNG, WebP or HEIC/HEIF · iPhone photos are converted automatically</small
+            ></span
+          ><input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"
+            (change)="upload($event)"
         /></label>
       } @else {
         <p class="muted">
